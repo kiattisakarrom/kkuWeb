@@ -1,0 +1,62 @@
+# version: "3.8"
+
+# services:
+#   frontend:
+#     build: ./front # ชื่อโฟลเดอร์ที่จะบิ้ว
+#     image: kiattisakarro/unitdose-frontend:latest
+#     ports:
+#       - "80:80"
+#     depends_on:
+#       - backend
+
+#   backend:
+#     build: ./back # ชื่อโฟลเดอร์ที่จะบิ้ว
+#     image: kiattisakarro/unitdose-backend:latest
+#     ports:
+#       - "3000:3000"
+
+# hitrix@pharmcare:~/unitdosehttps$ docker run -d -p 80:80 --name unitdose-front kiattisakarro/unitdose-frontend:latest
+# hitrix@pharmcare:~/unitdosehttps$ docker run -d -p 3000:3000 --name unitdose-back kiattisakarro/unitdose-backend:latest
+
+version: "3.8"
+
+services:
+  nginx:
+    image: nginx:alpine
+    container_name: reverse-proxy
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./nginx/certs:/etc/nginx/certs:ro
+    depends_on:
+      - frontend
+      - backend
+    restart: always
+    networks:
+      - app-network
+
+  frontend:
+    image: kiattisakarro/unitdose-frontend:latest
+    container_name: frontend-supreme
+    expose:
+      - "80"
+    restart: always
+    networks:
+      - app-network
+
+  backend:
+    image: kiattisakarro/unitdose-backend:latest
+    container_name: backend-supreme
+    expose:
+      - "3000"
+    environment:
+      - NODE_ENV=production
+    restart: always
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge

@@ -1,0 +1,21 @@
+# Local backups of the original repositories
+/.git-backups/
+
+# Dependencies and generated output
+node_modules/
+dist/
+dist-ssr/
+build/
+coverage/
+
+# Local environment and private TLS material
+.env
+.env.*
+!.env.example
+!.env.sample
+/nginx/certs/
+
+# Logs and operating system files
+*.log
+.DS_Store
+Thumbs.db
