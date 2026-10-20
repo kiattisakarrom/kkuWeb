@@ -1,23 +1,31 @@
-// index.js
-const express = require("express");
-const bodyParser = require("body-parser");
-const cors = require("cors");
-const routes = require("./routes/userRoutes"); // เส้นทางที่ถูกต้องของ userRoutes
-const authenticateJWT = require("./middlewares/authenticateJWT");
-const doseRouter = require("./routes/doseRoute");
-const app = express();
-const port = 3000;
-
-app.use(bodyParser.json());
-app.use(cors());
-
-app.use("/api", routes);
-app.use("/dose", doseRouter);
-
-app.get("/api/protected-route", authenticateJWT, (req, res) => {
-  res.json({ message: "You are authorized", user: req.user });
+require("dotenv").config();
+const { createApp } = require("./app");
+const repository = {
+  ...require("./repositories/ipdReadRepository"),
+  ...require("./repositories/ipdPatientRepository"),
+  ...require("./repositories/ipdPrescriptionRepository"),
+  ...require("./repositories/ipdReconcileRepository"),
+  ...require("./repositories/ipdDrugProfileRepository"),
+  ...require("./repositories/ipdPharmcareRepository"),
+  ...require("./repositories/ipdPharmacistNoteRepository"),
+  ...require("./repositories/ipdIhosDueRepository"),
+  ...require("./repositories/ipdLabHistoryRepository"),
+  ...require("./repositories/ipdScreeningRepository"),
+  ...require("./repositories/ipdCheckoutRepository"),
+};
+const app = createApp({ repository, jwtSecret: process.env.JWT_SECRET });
+const port = Number(process.env.PORT) || 3000;
+const server = app.listen(port, () => {
+  console.log(`IPD read-only server is running on port ${port}`);
 });
 
-app.listen(port, () => {
-  console.log(`Server is running on port ${port}`);
+server.on("error", (error) => {
+  if (error.code === "EADDRINUSE") {
+    console.error(
+      `Port ${port} is already in use. Stop the existing backend before running npm start again.`,
+    );
+  } else {
+    console.error("Unable to start the IPD server:", error);
+  }
+  process.exit(1);
 });

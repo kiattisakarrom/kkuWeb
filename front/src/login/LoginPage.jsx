@@ -1,91 +1,189 @@
-import React, { useState } from 'react';
-import axios from 'axios';
-import { useNavigate } from 'react-router-dom'; // เพิ่ม useNavigate
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { apiMessage, ipdApi, saveSessionToken } from '../services/ipdApi';
 
-import { API_URL } from '../../config';
-
-const LoginPage = () => {
+export default function LoginPage() {
+  const navigate = useNavigate();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [roomCode, setRoomCode] = useState('');
+  const [options, setOptions] = useState({ rooms: [] });
+  const [loading, setLoading] = useState(true);
+  const [submitting, setSubmitting] = useState(false);
+  const [optionsError, setOptionsError] = useState('');
   const [message, setMessage] = useState('');
-  const navigate = useNavigate(); // ใช้ useNavigate
+  const [retry, setRetry] = useState(0);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  useEffect(() => {
+    const controller = new AbortController();
+    setLoading(true);
+    setOptionsError('');
+    ipdApi
+      .get('/login-options', { signal: controller.signal })
+      .then(({ data }) => {
+        if (!controller.signal.aborted) setOptions(data);
+      })
+      .catch((error) => {
+        if (!controller.signal.aborted)
+          setOptionsError(apiMessage(error, 'โหลดห้องยาไม่ได้ กรุณาลองใหม่'));
+      })
+      .finally(() => {
+        if (!controller.signal.aborted) setLoading(false);
+      });
+    return () => controller.abort();
+  }, [retry]);
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    if (submitting || loading || optionsError) return;
+    setSubmitting(true);
+    setMessage('');
     try {
-      const response = await axios.post(API_URL + '/api/login', {
+      const { data } = await ipdApi.post('/login', {
         username,
         password,
+        roomCode,
       });
-      setMessage('เข้าสู่ระบบสำเร็จ');
-      localStorage.setItem('token', response.data.token);
-      navigate('/'); // นำทางไปที่หน้า mainIPD หลังจากการล็อกอินสำเร็จ
-    } catch (err) {
-      setMessage('รหัสผ่านหรือชื่อไม่ถูกต้อง');
-      console.error(err);
+      saveSessionToken(data.token);
+      setPassword('');
+      navigate('/ipd', { replace: true });
+    } catch (error) {
+      setMessage(apiMessage(error, 'เชื่อมต่อระบบไม่ได้ กรุณาลองใหม่'));
+    } finally {
+      setSubmitting(false);
     }
   };
+  const inputClass =
+    'mt-1 w-full rounded border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 focus:outline-none focus:ring focus:border-blue-300 disabled:bg-gray-100';
 
   return (
-    <div className="flex items-center justify-center min-h-full bg-center">
-      <div className="bg-white bg-opacity-90 p-10 rounded-lg w-96">
-        <h2 className="text-2xl font-bold mb-5 text-center">เข้าสู่ระบบ</h2>
-        {message && (
-          <div className="mb-4 text-center text-red-500">{message}</div>
-        )}
-        <form onSubmit={handleSubmit}>
-          <div className="mb-4">
-            <label
-              className="block text-sm font-medium mb-2"
-              htmlFor="username"
-            >
-              ชื่อผู้ใช้
-            </label>
-            <input
-              type="text"
-              id="username"
-              name="username"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              required
-              className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring focus:border-blue-300"
-            />
-          </div>
-          <div className="mb-6">
-            <label
-              className="block text-sm font-medium mb-2"
-              htmlFor="password"
-            >
-              รหัสผ่าน
-            </label>
-            <input
-              type="password"
-              id="password"
-              name="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-              className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring focus:border-blue-300"
-            />
-          </div>
-          <div className="border border-gray-300 rounded p-2 my-5">
-            <select className="w-full border-none focus:outline-none" required>
-              <option>(กรุณาเลือกห้อง)</option>
-              <option>ห้องที่ 1</option>
-              <option>ห้องที่ 2</option>
-            </select>
-          </div>
-
+    <section
+      className="w-full max-w-sm rounded-lg bg-white bg-opacity-90 p-6 sm:p-10"
+      aria-labelledby="login-heading"
+    >
+      <h1
+        id="login-heading"
+        className="mb-5 text-center text-2xl font-bold text-gray-900"
+      >
+        เข้าสู่ระบบ
+      </h1>
+      {optionsError && (
+        <div
+          role="alert"
+          className="mt-4 rounded-lg bg-red-50 p-3 text-sm text-red-800"
+        >
+          {optionsError}
           <button
-            type="submit"
-            className="w-full bg-green-500 text-white py-2 rounded hover:bg-green-600 focus:outline-none focus:bg-green-600"
+            type="button"
+            onClick={() => setRetry((value) => value + 1)}
+            className="ml-2 font-semibold underline"
           >
-            เข้าสู่ระบบ
+            โหลดใหม่
           </button>
-        </form>
-      </div>
-    </div>
+        </div>
+      )}
+      {message && (
+        <p
+          role="alert"
+          className="mt-4 rounded-lg bg-red-50 p-3 text-sm text-red-800"
+        >
+          {message}
+        </p>
+      )}
+      {!loading && !optionsError && !options.rooms.length && (
+        <p
+          role="status"
+          className="mt-4 rounded-lg bg-amber-50 p-3 text-sm text-amber-900"
+        >
+          ไม่พบห้องยา IPD ที่เปิดใช้งาน กรุณาติดต่อผู้ดูแลระบบ
+        </p>
+      )}
+      <form
+        onSubmit={handleSubmit}
+        className="mt-6 space-y-4"
+        aria-busy={submitting}
+      >
+        <div>
+          <label
+            htmlFor="login-username"
+            className="text-sm font-medium text-slate-700"
+          >
+            ชื่อผู้ใช้
+          </label>
+          <input
+            id="login-username"
+            name="username"
+            autoComplete="username"
+            value={username}
+            onChange={(event) => setUsername(event.target.value)}
+            required
+            maxLength={100}
+            disabled={submitting}
+            className={inputClass}
+          />
+        </div>
+        <div>
+          <label
+            htmlFor="login-password"
+            className="text-sm font-medium text-slate-700"
+          >
+            รหัสผ่าน
+          </label>
+          <input
+            id="login-password"
+            name="password"
+            type="password"
+            autoComplete="current-password"
+            value={password}
+            onChange={(event) => setPassword(event.target.value)}
+            required
+            maxLength={100}
+            disabled={submitting}
+            className={inputClass}
+          />
+        </div>
+        <div>
+          <label
+            htmlFor="login-room"
+            className="text-sm font-medium text-slate-700"
+          >
+            ห้องยา
+          </label>
+          <select
+            id="login-room"
+            name="roomCode"
+            value={roomCode}
+            onChange={(event) => setRoomCode(event.target.value)}
+            required
+            disabled={loading || submitting || Boolean(optionsError)}
+            className={inputClass}
+          >
+            <option value="">
+              {loading ? 'กำลังโหลดห้องยา…' : 'เลือกห้องยา'}
+            </option>
+            {options.rooms.map((room) => (
+              <option key={room.code} value={room.code}>
+                [{room.code}] {room.name}
+              </option>
+            ))}
+          </select>
+        </div>
+        <button
+          type="submit"
+          disabled={
+            loading ||
+            submitting ||
+            Boolean(optionsError) ||
+            !options.rooms.length
+          }
+          className="w-full rounded bg-green-500 py-2 text-white hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-300 disabled:cursor-not-allowed disabled:bg-gray-400"
+        >
+          {submitting ? 'กำลังเข้าสู่ระบบ…' : 'เข้าสู่ระบบ'}
+        </button>
+        <p className="text-center text-xs text-gray-500">
+          ดูข้อมูล IPD · เลือกวอร์ดหลังเข้าสู่ระบบ
+        </p>
+      </form>
+    </section>
   );
-};
-
-export default LoginPage;
+}

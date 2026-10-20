@@ -1,22 +1,17 @@
-import React from 'react';
-import { motion } from 'framer-motion';
+import LoginPage from './LoginPage';
 import backgroundImage from '../../img/Background1.png';
-import CardSwitcher from './SelectRoom';
 
-export default function login() {
-  const backgroundStyle = {
-    backgroundImage: `url(${backgroundImage})`,
-    backgroundSize: 'cover',
-    backgroundPosition: 'center',
-    height: '100vh',
-    width: '100%',
-  };
-
+export default function Login() {
   return (
-    <div style={backgroundStyle}>
-      <div className="h-screen flex ml-44">
-        <CardSwitcher />
+    <main
+      className="min-h-screen bg-cover bg-center"
+      style={{ backgroundImage: `url(${backgroundImage})` }}
+    >
+      <div className="flex min-h-screen items-center justify-center px-4 py-6 sm:ml-44 sm:justify-start">
+        <div className="flex min-h-[600px] w-full max-w-[500px] items-center justify-center rounded-[10px] bg-white p-[10px] shadow-[10px_10px_20px_rgba(0,0,0,0.2)]">
+          <LoginPage />
+        </div>
       </div>
-    </div>
+    </main>
   );
 }

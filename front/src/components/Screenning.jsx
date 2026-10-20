@@ -10,7 +10,6 @@ import icon2 from '../../img/icon2.png';
 import icon3 from '../../img/icon3.png';
 import icon4 from '../../img/icon4.png';
 import icon5 from '../../img/icon5.png';
-import icon6 from '../../img/icon6.png';
 import icon8 from '../../img/icon7.png';
 import inImg from '../../img/in.png';
 import icon7 from '../../img/homeIcon.png';
@@ -347,19 +346,6 @@ export default function () {
               onClick={() => {
                 handleButtonClick('ยากลับบ้าน screen ส่งจัดยา');
                 handleApiCall('screen_TakeHome_Finish_1'); // ✅ เรียก API 8
-              }}
-            />
-            <ButtonWithIcon
-              icon={icon6}
-              label="รายการยามีปัญหา"
-              bgColor={
-                selectedButton === 'รายการยามีปัญหา'
-                  ? 'bg-green-500 text-white'
-                  : 'bg-white'
-              }
-              onClick={() => {
-                handleButtonClick('รายการยามีปัญหา');
-                handleApiCall('ว่าง');
               }}
             />
           </div>

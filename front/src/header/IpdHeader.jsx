@@ -1,226 +1,135 @@
-import React, { useState } from 'react';
-import { motion } from 'framer-motion';
+import { useEffect, useRef, useState } from 'react';
 import { FaChevronDown } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 
-export default function IpdHeader() {
+const menus = [
+  {
+    icon: '🛏️',
+    label: 'ห้องยา IPD',
+    items: [
+      { label: 'ห้องยา IPD Profile', path: '/' },
+      { label: 'Screen Create Order', shortcut: 'Alt+S' },
+      { label: 'Screening', shortcut: 'Alt+S', path: '/screening' },
+      { label: '[ER] Quick Order', shortcut: 'Alt+Q', path: '/quickorder' },
+      { label: 'Prescription Order', shortcut: 'Alt+P' },
+      { label: 'Screen Create Order' },
+      { label: 'Matching' },
+      { label: 'Check Out', shortcut: 'Alt+C', path: '/checkout' },
+      { label: 'Med Tranfer', shortcut: 'Alt+T', path: '/medtranfer' },
+    ],
+  },
+  { icon: '💊', label: 'Pharmcare', path: '/pharmcare' },
+  { icon: '🏥', label: 'ข้อมูลการจ่าย', path: '/DataDispenseDose' },
+  { icon: '👩‍⚕️', label: 'Nurse Station', path: '/nurseStation' },
+  {
+    icon: '📄',
+    label: 'Report',
+    items: [
+      { label: 'ADR' },
+      { label: 'IV Admixture' },
+      { label: 'Med Transfer' },
+      { label: 'Nurse Station' },
+      { label: 'Pharmcare' },
+      { label: 'Sticker ยา' },
+      { label: 'Workload' },
+      { label: 'ใบเบิก' },
+      { label: 'การใช้งานของผู้ป่วย' },
+      { label: 'ขายยานอก HAD,TDM,LAB และเคมีบำบัด' },
+      { label: 'การป้องกันการใช้ยา' },
+      { label: 'ขายส่งและผลิต' },
+      { label: 'แบบบันทึกการเตรียมยา' },
+      { label: 'การคืนยา' },
+    ],
+  },
+  { icon: '📝', label: 'คลังย่อย', path: '/subtreasury' },
+  { icon: '🛒', label: 'คืนยา', path: '/returndose' },
+  { icon: '📊', label: 'Med Reconcile' },
+  { icon: '⚙️', label: 'Setting', path: '/setting' },
+];
+
+export default function IpdHeader({ onNavigate }) {
   const navigate = useNavigate();
-
+  const [openMenu, setOpenMenu] = useState(null);
+  const headerRef = useRef(null);
+  useEffect(() => {
+    const closeOutside = (event) => {
+      if (!headerRef.current?.contains(event.target)) setOpenMenu(null);
+    };
+    const closeOnEscape = (event) => {
+      if (event.key === 'Escape') setOpenMenu(null);
+    };
+    document.addEventListener('pointerdown', closeOutside);
+    document.addEventListener('keydown', closeOnEscape);
+    return () => {
+      document.removeEventListener('pointerdown', closeOutside);
+      document.removeEventListener('keydown', closeOnEscape);
+    };
+  }, []);
+  const select = (item) => {
+    setOpenMenu(null);
+    if (onNavigate) onNavigate(item.path, item.label);
+    else if (item.path) navigate(item.path);
+  };
   return (
-    <div className="w-full h-full">
-      <div className="flex items-center bg-blue-100 w-full h-full">
-        <DropdownIPD icon="🛏️" label="ห้องยา IPD" />
-        <button
-          className="flex items-center hover:bg-gray-500 active:bg-gray-300 px-3 py-1 rounded-md "
-          onClick={() => {
-            if ('/pharmcare') navigate('/pharmcare');
-            onclick();
-          }}
-        >
-          <span className="">💊</span>
-          <span className="ml-2">Pharmcare</span>
-        </button>
-
-        <button
-          className="flex items-center hover:bg-gray-500 active:bg-gray-300 px-3 py-1 rounded-md "
-          onClick={() => {
-            if ('/DataDispenseDose') navigate('/DataDispenseDose');
-            onclick();
-          }}
-        >
-          <span className="text-sx">🏥</span>
-          <span className="ml-2">ข้อมูลการจ่าย</span>
-        </button>
-
-        <button
-          className="flex items-center hover:bg-gray-500 active:bg-gray-300 px-3 py-1 rounded-md "
-          onClick={() => {
-            if ('/NurseStation') navigate('/NurseStation');
-            onclick();
-            // console.log('clicik');
-          }}
-        >
-          <span className="text-sx">👩‍⚕️</span>
-          <span className="ml-2">Nurse Station</span>
-        </button>
-
-        <DropdownReport icon="📄" label="Report" />
-
-        <button
-          className="flex items-center hover:bg-gray-500 active:bg-gray-300 px-3 py-1 rounded-md "
-          onClick={() => '/subtreasury' && navigate('/subtreasury')}
-        >
-          <span className="text-sx">📝</span>
-          <span className="ml-2">คลังย่อย</span>
-        </button>
-        <button
-          className="flex items-center hover:bg-gray-500 active:bg-gray-300 px-3 py-1 rounded-md "
-          onClick={() => '/returndose' && navigate('/returndose')}
-        >
-          <span className="text-sx">🛒</span>
-          <span className="ml-2">คืนยา</span>
-        </button>
-        <button className=" flex items-center hover:bg-gray-500 active:bg-gray-300 px-3 py-1 rounded-md ">
-          <span className="text-sx">📊</span>
-          <span className="ml-2">Med Reconcile</span>
-        </button>
-        <button
-          className=" flex items-center hover:bg-gray-500 active:bg-gray-300 px-3 py-1 rounded-md "
-          onClick={() => '/setting' && navigate('/setting')}
-        >
-          <span className="">⚙️</span>
-          <span className="ml-2">Setting</span>
-        </button>
-      </div>
-    </div>
+    <nav
+      ref={headerRef}
+      aria-label="เมนูหลัก"
+      className="relative z-20 flex w-full flex-wrap items-center bg-blue-100 py-1 text-xs"
+    >
+      {menus.map((menu) => (
+        <div key={menu.label} className="relative">
+          <button
+            type="button"
+            onClick={() =>
+              menu.items
+                ? setOpenMenu(openMenu === menu.label ? null : menu.label)
+                : select(menu)
+            }
+            aria-expanded={menu.items ? openMenu === menu.label : undefined}
+            aria-controls={
+              menu.items ? `menu-${menus.indexOf(menu)}` : undefined
+            }
+            className="flex items-center rounded-md px-3 py-1 hover:bg-gray-300 focus-visible:ring-2 focus-visible:ring-blue-500 active:bg-gray-400"
+          >
+            <span aria-hidden="true">{menu.icon}</span>
+            <span className="ml-2">{menu.label}</span>
+            {menu.items && (
+              <FaChevronDown
+                className={`ml-1 transition-transform ${openMenu === menu.label ? 'rotate-180' : ''}`}
+                aria-hidden="true"
+              />
+            )}
+          </button>
+          {menu.items && openMenu === menu.label && (
+            <div
+              id={`menu-${menus.indexOf(menu)}`}
+              className="absolute left-0 top-full z-30 mt-1 max-h-[75vh] w-72 overflow-y-auto rounded-lg border border-gray-400 bg-white py-1 shadow-lg"
+              aria-label={menu.label}
+            >
+              {menu.items.map((item, index) => (
+                <button
+                  type="button"
+                  key={`${item.label}-${index}`}
+                  onClick={() => select(item)}
+                  className="flex w-full items-center justify-between gap-3 px-4 py-2 text-left hover:bg-gray-100 focus-visible:bg-blue-100"
+                >
+                  <span>{item.label}</span>
+                  {item.shortcut && (
+                    <span className="text-gray-500">{item.shortcut}</span>
+                  )}
+                </button>
+              ))}
+            </div>
+          )}
+        </div>
+      ))}
+    </nav>
   );
 }
 
-const DropdownIPD = ({ icon, label }) => {
-  const [isOpen, setIsOpen] = useState(false);
-
-  const menuVariants = {
-    open: {
-      opacity: 1,
-      y: 0,
-      display: 'block',
-      transition: {
-        type: 'spring',
-        stiffness: 800,
-        damping: 20,
-      },
-    },
-    closed: {
-      opacity: 0,
-      y: -5,
-      transitionEnd: {
-        display: 'none',
-      },
-    },
-  };
-
-  return (
-    <div className="relative inline-block text-left">
-      <button
-        onClick={() => setIsOpen(!isOpen)}
-        className=" flex items-center hover:bg-gray-500 active:bg-gray-300 px-3 py-1 rounded-md transition duration-300 ease-in-out"
-      >
-        <span className="">{icon}</span>
-        <span className="ml-2">{label}</span>
-        <FaChevronDown
-          style={{
-            marginLeft: '4px',
-            transition: 'transform 0.3s ease',
-            transform: isOpen ? 'rotate(0deg)' : 'rotate(180deg)',
-          }}
-        />
-      </button>
-      <motion.div
-        initial="closed"
-        animate={isOpen ? 'open' : 'closed'}
-        variants={menuVariants}
-        className="absolute left-0 mt-2 w-64 bg-white border border-gray-400 rounded-lg shadow-lg z-10"
-      >
-        <DropdownItem label="ห้องยา IPD Profile" path="/" />
-        <DropdownItem label="Screen Create Order" shortcut="Alt+S" />
-        <DropdownItem label="Screening" shortcut="Alt+S" path="/screening" />
-        <DropdownItem
-          label="[ER] Quick Order"
-          shortcut="Alt+Q"
-          path="/quickorder"
-        />
-        <DropdownItem label="Prescription Order" shortcut="Alt+P" />
-        <DropdownItem label="Screen Create Order" />
-        <DropdownItem label="Matching" />
-        <DropdownItem label="Check Out" shortcut="Alt+C" />
-        <DropdownItem label="Med Tranfer" shortcut="Alt+T" path="/medtranfer" />
-      </motion.div>
-    </div>
-  );
-};
-
-const DropdownReport = ({ icon, label }) => {
-  const [isOpen, setIsOpen] = useState(false);
-  const menuVariants = {
-    open: {
-      opacity: 1,
-      y: 0,
-      display: 'block',
-      transition: {
-        type: 'spring',
-        stiffness: 300,
-        damping: 20,
-      },
-    },
-    closed: {
-      opacity: 0,
-      y: -20,
-      transitionEnd: {
-        display: 'none',
-      },
-      transition: {
-        type: 'spring',
-        stiffness: 300,
-        damping: 20,
-      },
-    },
-  };
-
-  return (
-    <div className="relative inline-block text-left">
-      <button
-        onClick={() => setIsOpen(!isOpen)}
-        className="h-[80%] flex items-center hover:bg-gray-500 active:bg-gray-300 px-3 py-1 rounded-md transition duration-300 ease-in-out"
-      >
-        <span className="">{icon}</span>
-        <span className="ml-2">{label}</span>
-        <FaChevronDown
-          style={{
-            marginLeft: '4px',
-            transition: 'transform 0.3s ease',
-            transform: isOpen ? 'rotate(0deg)' : 'rotate(180deg)',
-          }}
-        />
-      </button>
-      <motion.div
-        initial="closed"
-        animate={isOpen ? 'open' : 'closed'}
-        variants={menuVariants}
-        className="absolute left-0 mt-2 w-64 bg-white border border-gray-400 rounded-lg shadow-lg z-10"
-      >
-        <DropdownItem label="ADR" />
-        <DropdownItem label="IV Admixture" />
-        <DropdownItem label="Med Transfer" />
-        <DropdownItem label="Nurse Station" />
-        <DropdownItem label="Pharmcare" hasSubmenu icon="🏥">
-          <DropdownItem label="ห้องยา IPD" path="/mainIPD" />
-          <DropdownItem label="ห้องยา OPD" />
-          <DropdownItem label="รายงานสรุปการทำ Pharmcare" />
-        </DropdownItem>
-        <DropdownItem label="Sticker ยา" />
-        <DropdownItem label="Workload" />
-        <DropdownItem label="ใบเบิก" />
-        <DropdownItem label="การใช้งานของผู้ป่วย" />
-        <DropdownItem label="ขายยานอก HAD,TDM,LAB และเคมีบำบัด" />
-        <DropdownItem label="การป้องกันการใช้ยา" />
-        <DropdownItem label="ขายส่งและผลิต" />
-        <DropdownItem label="แบบบันทึกการเตรียมยา" />
-        <DropdownItem label="การคืนยา" />
-      </motion.div>
-    </div>
-  );
-};
-
-const DropdownItem = ({ label, shortcut, path }) => {
-  const navigate = useNavigate();
-
-  return (
-    <div
-      className="flex justify-between items-center px-4 py-2 hover:bg-gray-100 cursor-pointer transition duration-300 ease-in-out"
-      onClick={() => path && navigate(path)}
-    >
-      <span>{label}</span>
-      {shortcut && <span className="text-gray-500">{shortcut}</span>}
-    </div>
-  );
+IpdHeader.propTypes = {
+  onNavigate: (props, name) =>
+    props[name] == null || typeof props[name] === 'function'
+      ? null
+      : new Error(`${name} must be a function`),
 };
