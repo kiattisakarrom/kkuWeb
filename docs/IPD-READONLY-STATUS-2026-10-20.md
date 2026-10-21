@@ -8,6 +8,8 @@
 
 เพิ่ม [Check Out](IPD-CHECKOUT.md) ตาม ucCheckout/ucCheckoutdetail แล้ว: หอ/หัวใบ/รายละเอียด JVM/จัดมือ/Stat แบบอ่านอย่างเดียว ไม่ทำเปิดใบแสกน ตรวจ MSSQL และ API จริงผ่าน ชุดทดสอบรวมล่าสุด 185 กรณีผ่าน
 
+เพิ่ม [Med Transfer](IPD-MED-TRANSFER.md) ตาม ucMedtransfer/ucWaitMedtransfer/ucMedComplete แล้ว: ฟอร์มอ่านใบยาและหน้าสถานะสองแท็บตาม native ใช้รถเข็นจริง ปิดยืนยันรับยา/บันทึกการบรรจุ ชุดทดสอบรวมล่าสุด 193 กรณีผ่าน หน้านี้ใช้ MSSQL ไม่มีการเรียก MySQL
+
 ## แก้โค้ดครบทั้ง 6 จุด
 
 | ส่วน | ผลที่แก้ |

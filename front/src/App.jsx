@@ -11,6 +11,7 @@ import IpdWorkspace from './components/ipd/IpdWorkspace';
 import ScreeningStat from './components/screening/ScreeningStat';
 import QuickOrder from './components/quickorder/QuickOrder';
 import Checkout from './components/checkout/Checkout';
+import MedTransfer from './components/medtransfer/MedTransfer';
 import { apiMessage, getSessionToken, ipdApi } from './services/ipdApi';
 import { IpdSessionContext } from './services/ipdSession';
 
@@ -18,6 +19,7 @@ function PrivateRoute() {
   const screening = useMatch('/ipd/screening');
   const quickOrder = useMatch('/ipd/quick-order');
   const checkout = useMatch('/ipd/checkout');
+  const medTransfer = useMatch('/ipd/med-transfer');
   const [session, setSession] = useState(null);
   const [checking, setChecking] = useState(true);
   const [error, setError] = useState('');
@@ -75,7 +77,9 @@ function PrivateRoute() {
     );
   return session ? (
     <IpdSessionContext.Provider value={session}>
-      {checkout ? (
+      {medTransfer ? (
+        <MedTransfer />
+      ) : checkout ? (
         <Checkout />
       ) : quickOrder ? (
         <QuickOrder />
@@ -104,6 +108,18 @@ export default function App() {
           element={<Navigate to="/ipd/quick-order" replace />}
         />
         <Route path="/ipd/*" element={<PrivateRoute />} />
+        <Route
+          path="/medtranfer/statedoseintocart"
+          element={<Navigate to="/ipd/med-transfer?view=status" replace />}
+        />
+        <Route
+          path="/medtranfer/*"
+          element={<Navigate to="/ipd/med-transfer" replace />}
+        />
+        <Route
+          path="/medtransfer"
+          element={<Navigate to="/ipd/med-transfer" replace />}
+        />
         <Route
           path="/checkout"
           element={<Navigate to="/ipd/checkout" replace />}

@@ -12,6 +12,7 @@ const repository = {
   ...require("./repositories/ipdLabHistoryRepository"),
   ...require("./repositories/ipdScreeningRepository"),
   ...require("./repositories/ipdCheckoutRepository"),
+  ...require("./repositories/ipdMedTransferRepository"),
 };
 const app = createApp({ repository, jwtSecret: process.env.JWT_SECRET });
 const port = Number(process.env.PORT) || 3000;

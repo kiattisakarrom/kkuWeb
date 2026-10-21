@@ -10,8 +10,7 @@ export default defineConfig({
     https: false, // ให้ Nginx จัดการ HTTPS
     proxy: {
       '/api': {
-        // target: 'http://localhost:3000',
-        target: 'http://backend:3000',
+        target: 'http://127.0.0.1:3000',
         changeOrigin: true,
         secure: false,
       },
@@ -20,6 +19,6 @@ export default defineConfig({
   },
   build: {
     outDir: 'dist',
-    sourcemap: true,
+    sourcemap: false,
   },
 });

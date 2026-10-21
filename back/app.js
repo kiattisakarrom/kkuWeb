@@ -7,6 +7,7 @@ const { screeningWindow, dayOffset } = require("./services/ipdScreening");
 const { screeningAllWindow } = require("./services/ipdScreeningAll");
 const { takeHomeWindow } = require("./services/ipdScreeningTakeHome");
 const { checkoutWindow } = require("./services/ipdCheckout");
+const { medTransferWindow } = require("./services/ipdMedTransfer");
 
 const IPD_ROOMS = ["001", "010"];
 
@@ -44,6 +45,11 @@ function createApp({ repository, jwtSecret }) {
   app.disable("x-powered-by");
   app.use(cors());
   app.use(express.json({ limit: "16kb" }));
+  // Container liveness only; no database reads or patient data.
+  app.get("/healthz", (_req, res) => {
+    res.set("Cache-Control", "no-store");
+    res.json({ status: "ok" });
+  });
   app.use("/api", (_req, res, next) => {
     res.set("Cache-Control", "no-store");
     next();
@@ -222,6 +228,117 @@ function createApp({ repository, jwtSecret }) {
     }
   });
 
+  const medTransferFilters = (req, res, next) => {
+    const { orderdate } = req.ipdFilters;
+    const transferStatus = req.query.transferStatus ?? "pending";
+    const workdate = req.query.workdate;
+    if (
+      !["pending", "transferred"].includes(transferStatus) ||
+      orderdate < "1753-01-02" ||
+      orderdate > "9999-12-30" ||
+      (workdate !== undefined &&
+        (!validDate(workdate) ||
+          ![orderdate, dayOffset(orderdate, -1)].includes(workdate))) ||
+      (req.route.path.endsWith("/prescriptions") &&
+        !validCode(req.query.wardCode)) ||
+      ["hn", "HN", "an", "AN", "medtransferdatetime", "sql", "search"].some(
+        (key) => req.query[key] !== undefined,
+      )
+    )
+      return res
+        .status(400)
+        .json({ message: "วันที่ สถานะ หรือวอร์ด Med Transfer ไม่ถูกต้อง" });
+    req.medTransferFilters = {
+      orderdate,
+      transferStatus,
+      window: medTransferWindow(orderdate, workdate),
+    };
+    next();
+  };
+  app.get("/api/ipd/med-transfer/options", async (_req, res, next) => {
+    try {
+      res.json({ carts: await repository.getMedTransferCarts() });
+    } catch (error) {
+      next(error);
+    }
+  });
+  app.get(
+    "/api/ipd/med-transfer/wards",
+    medTransferFilters,
+    async (req, res, next) => {
+      try {
+        res.json({
+          ...req.medTransferFilters,
+          wards: await repository.getMedTransferWards(req.medTransferFilters),
+        });
+      } catch (error) {
+        next(error);
+      }
+    },
+  );
+  app.get(
+    "/api/ipd/med-transfer/prescriptions",
+    medTransferFilters,
+    async (req, res, next) => {
+      try {
+        res.json({
+          ...req.medTransferFilters,
+          wardCode: req.query.wardCode,
+          prescriptions: await repository.getMedTransferPrescriptions(
+            req.medTransferFilters,
+            req.query.wardCode,
+          ),
+        });
+      } catch (error) {
+        next(error);
+      }
+    },
+  );
+  app.get(
+    "/api/ipd/med-transfer/prescriptions/:prescriptionno",
+    async (req, res, next) => {
+      if (
+        !/^[A-Za-z0-9-]{1,20}$/.test(req.params.prescriptionno) ||
+        typeof req.query.cartName !== "string" ||
+        !req.query.cartName.trim() ||
+        req.query.cartName.length > 100 ||
+        [
+          "hn",
+          "HN",
+          "an",
+          "AN",
+          "medtransferdatetime",
+          "sql",
+          "transferStatus",
+          "wardCode",
+        ].some((key) => req.query[key] !== undefined)
+      )
+        return res
+          .status(400)
+          .json({ message: "กรุณาเลือกรถเข็นและระบุเลขที่ใบสั่งยาให้ถูกต้อง" });
+      try {
+        const lookup = await repository.getMedTransferPrescription(
+          req.query.cartName,
+          req.params.prescriptionno,
+        );
+        if (lookup.state === "invalid-cart")
+          return res
+            .status(400)
+            .json({ message: "ไม่พบข้อมูลรถเข็น กรุณาเลือกใหม่" });
+        res.json({ prescriptionno: req.params.prescriptionno, ...lookup });
+      } catch (error) {
+        if (error.code === "MED_TRANSFER_AMBIGUOUS_PATIENT")
+          return res
+            .status(409)
+            .json({
+              message:
+                "เลขใบสั่งยานี้มีข้อมูลผู้ป่วยมากกว่าหนึ่งราย กรุณาตรวจสอบเลขใบ",
+            });
+        next(error);
+      }
+    },
+  );
+
   const checkoutFilters = (req, res, next) => {
     const { orderdate, search } = req.ipdFilters;
     const checkoutStatus = req.query.checkoutStatus ?? "pending";
@@ -298,12 +415,10 @@ function createApp({ repository, jwtSecret }) {
           req.query.headerKey,
         );
         if (!detail)
-          return res
-            .status(404)
-            .json({
-              message:
-                "ไม่พบใบสั่งยาในเงื่อนไข Check out ที่เลือก กรุณาโหลดรายการใหม่",
-            });
+          return res.status(404).json({
+            message:
+              "ไม่พบใบสั่งยาในเงื่อนไข Check out ที่เลือก กรุณาโหลดรายการใหม่",
+          });
         res.json({ ...req.checkoutFilters, ...detail });
       } catch (error) {
         next(error);

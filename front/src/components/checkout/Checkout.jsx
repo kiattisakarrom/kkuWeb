@@ -506,6 +506,7 @@ export default function Checkout() {
       <IpdHeader
         onNavigate={(path, label) => {
           if (['/', '/ipd'].includes(path)) navigate('/ipd');
+          else if (path === '/medtranfer') navigate('/ipd/med-transfer');
           else if (path === '/screening')
             navigate(
               `/ipd/screening?${new URLSearchParams({ orderdate, mode: 'continue-wait' })}`

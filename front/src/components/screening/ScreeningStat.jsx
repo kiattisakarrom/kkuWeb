@@ -6,7 +6,6 @@ import { useIpdRead } from '../../services/useIpdRead';
 import IpdHeader from '../../header/IpdHeader';
 import ScreeningReadTable from './ScreeningReadTable';
 import { screeningColumns } from './screeningColumns';
-import { dateText } from '../Profile/profileFormat';
 import { validProfileDate } from '../Profile/drugProfileDates';
 import {
   allRobotWardsQuery,
@@ -196,6 +195,7 @@ export default function ScreeningStat() {
         <IpdHeader
           onNavigate={(path, label) => {
             if (['/', '/ipd'].includes(path)) navigate('/ipd');
+            else if (path === '/medtranfer') navigate('/ipd/med-transfer');
             else if (path === '/checkout')
               navigate(`/ipd/checkout?${new URLSearchParams({ orderdate })}`);
             else if (path === '/quickorder')
@@ -448,25 +448,6 @@ export default function ScreeningStat() {
                 >
                   แสดงทุกหอที่มีรายการ
                 </button>
-              )}
-              {window && (
-                <p className="text-[10px] text-gray-600">
-                  รอบ {dateText(window.start.replace(' ', 'T') + 'Z', true)}–
-                  {dateText(window.end.replace(' ', 'T') + 'Z', true)}
-                  <br />
-                  {isAll
-                    ? 'ช่วงเวลาของรายการทั้งหมดตามระบบเดิม'
-                    : isTakeHome
-                      ? `ยอดวอร์ดถึง 07:59:00 · ยาถึง 07:59:59 ตามระบบเดิม`
-                      : `ยอดวอร์ดถึง 07:59:00 · ${isRobot ? 'ใบ' : 'ใบ/ยา'}ถึง 07:59:59 ตามระบบเดิม`}
-                  {isTakeHome && window.headerEnd && (
-                    <>
-                      <br />
-                      หัวใบถึง{' '}
-                      {dateText(window.headerEnd.replace(' ', 'T') + 'Z', true)}
-                    </>
-                  )}
-                </p>
               )}
             </div>
             <div className="min-h-0 flex-1 overflow-auto">

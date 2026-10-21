@@ -190,6 +190,7 @@ export default function QuickOrder() {
         <IpdHeader
           onNavigate={(path, label) => {
             if (['/', '/ipd'].includes(path)) navigate('/ipd');
+            else if (path === '/medtranfer') navigate('/ipd/med-transfer');
             else if (path === '/checkout')
               navigate(`/ipd/checkout?${new URLSearchParams({ orderdate })}`);
             else if (path === '/screening')

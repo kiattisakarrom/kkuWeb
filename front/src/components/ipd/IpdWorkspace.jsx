@@ -191,6 +191,11 @@ export default function IpdWorkspace() {
       <header className="border-b-2 border-white bg-blue-100">
         <IpdHeader
           onNavigate={(path, label) => {
+            if (path === '/medtranfer') {
+              navigate('/ipd/med-transfer');
+              setMenuNotice('');
+              return;
+            }
             if (path === '/checkout') {
               navigate(`/ipd/checkout?${new URLSearchParams({ orderdate })}`);
               setMenuNotice('');

@@ -1,19 +1,26 @@
 const fs = require("node:fs/promises");
 const path = require("node:path");
+const bundledDirectory = path.join(__dirname, "../assets/checkout-drugs");
 
 // Resolve only names found inside the configured drug-picture directory. No
 // browser path, URL, barcode or patient identifier can become a filesystem path.
 async function readCheckoutImages(
   items,
   packets,
-  directory = process.env.CHECKOUT_DRUG_IMAGE_DIR ||
-    path.join(__dirname, "../assets/checkout-drugs"),
+  directory = process.env.CHECKOUT_DRUG_IMAGE_DIR || bundledDirectory,
+  fallbackDirectory = bundledDirectory,
 ) {
+  let activeDirectory = directory;
   let names;
   try {
-    names = await fs.readdir(directory);
+    names = await fs.readdir(activeDirectory);
   } catch {
-    return { byDrug: {}, sources: {} };
+    activeDirectory = fallbackDirectory;
+    try {
+      names = await fs.readdir(activeDirectory);
+    } catch {
+      return { byDrug: {}, sources: {} };
+    }
   }
   const files = new Map(
     names
@@ -22,24 +29,26 @@ async function readCheckoutImages(
   );
   const cache = new Map();
   const sources = Object.create(null);
-  const read = async (name) => {
-    const actual = files.get(name.toLowerCase());
-    if (!actual) return "";
-    if (!cache.has(actual))
+  const readFile = async (key, filename) => {
+    if (!cache.has(key))
       cache.set(
-        actual,
+        key,
         (async () => {
           try {
-            const data = await fs.readFile(path.join(directory, actual));
-            sources[actual] =
-              `data:image/${/\.png$/i.test(actual) ? "png" : "jpeg"};base64,${data.toString("base64")}`;
-            return actual;
+            const data = await fs.readFile(filename);
+            sources[key] =
+              `data:image/${/\.png$/i.test(filename) ? "png" : "jpeg"};base64,${data.toString("base64")}`;
+            return key;
           } catch {
             return "";
           }
         })(),
       );
-    return cache.get(actual);
+    return cache.get(key);
+  };
+  const read = (name) => {
+    const actual = files.get(name.toLowerCase());
+    return actual ? readFile(actual, path.join(activeDirectory, actual)) : "";
   };
   const images = Object.create(null);
   for (const code of new Set(items.map((r) => String(r.orderitemcode ?? "")))) {
@@ -56,7 +65,13 @@ async function readCheckoutImages(
       images[code][dose] =
         (await read(`${code}.jpg`)) ||
         (await read(`${code}_000_${suffix}.png`)) ||
-        (await read("no_picture.png"));
+        (await read("no_picture.png")) ||
+        (path.resolve(activeDirectory) !== path.resolve(fallbackDirectory)
+          ? await readFile(
+              "fallback:no_picture.png",
+              path.join(fallbackDirectory, "no_picture.png"),
+            )
+          : "");
     }
   }
   // The same fallback/JPG may be used by dozens of drugs/doses. Transfer its

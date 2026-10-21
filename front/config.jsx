@@ -1,11 +1,9 @@
-//config.jsx devmode
-export const API_URL = 'http://localhost:3000';
-export const API_SCREEN = 'http://localhost:3000/api';
+// Production uses the current HTTPS origin, including the existing hospital proxy.
+// Development can still call the backend on this computer directly.
+const origin = (
+  import.meta.env.VITE_API_URL ??
+  (import.meta.env.DEV ? 'http://localhost:3000' : '')
+).replace(/\/+$/, '');
 
-// export const API_URL = import.meta.env.PROD
-//   ? 'http://192.168.222.206:3000/api' // ใน container หรือ docker-compose
-//   : 'http://localhost:3000/api'; // dev mode ในเครื่อง
-
-// // frontend webserve config.jsx depoly
-// export const API_URL = 'https://phramcare.kkh.go.th';
-// export const API_SCREEN = 'https://phramcare.kkh.go.th/api';
+export const API_URL = origin;
+export const API_SCREEN = `${origin}/api`;

@@ -184,6 +184,69 @@ test("Checkout image reader follows JPG, dose PNG and fallback precedence with c
   assert.equal(Object.keys(result.sources).length, 3);
 });
 
+test("Checkout missing configured image folder uses bundled pictures and stays readable when both locations are unavailable", async (t) => {
+  const directory = await fs.mkdtemp(
+    path.join(os.tmpdir(), "checkout-missing-image-test-"),
+  );
+  t.after(() => fs.rm(directory, { recursive: true, force: true }));
+  const items = [{ orderitemcode: "SYNTHETIC-MISSING-DRUG" }];
+  const actual = await readCheckoutImages(
+    items,
+    [],
+    path.join(directory, "unavailable"),
+  );
+  const fallback = await fs.readFile(
+    path.join(__dirname, "../assets/checkout-drugs/no_picture.png"),
+  );
+  assert.equal(
+    actual.sources[actual.byDrug["SYNTHETIC-MISSING-DRUG"][""]],
+    `data:image/png;base64,${fallback.toString("base64")}`,
+  );
+  assert.deepEqual(
+    await readCheckoutImages(
+      items,
+      [],
+      path.join(directory, "missing-primary"),
+      path.join(directory, "missing-fallback"),
+    ),
+    { byDrug: {}, sources: {} },
+  );
+});
+
+test("Checkout readable Windows folder keeps its own drug images and uses a single bundled fallback when its no_picture file is missing", async (t) => {
+  const directory = await fs.mkdtemp(
+    path.join(os.tmpdir(), "checkout-partial-image-test-"),
+  );
+  t.after(() => fs.rm(directory, { recursive: true, force: true }));
+  await fs.writeFile(path.join(directory, "SYN-DRUG.JPG"), "primary-picture");
+  const actual = await readCheckoutImages(
+    [
+      { orderitemcode: "SYN-DRUG" },
+      { orderitemcode: "SYN-MISSING-1" },
+      { orderitemcode: "SYN-MISSING-2" },
+    ],
+    [{ orderitemcode: "SYN-MISSING-1", dosage: 0.5 }],
+    directory,
+  );
+  assert.equal(
+    actual.sources[actual.byDrug["SYN-DRUG"][""]],
+    `data:image/jpeg;base64,${Buffer.from("primary-picture").toString("base64")}`,
+  );
+  assert.match(
+    actual.sources[actual.byDrug["SYN-MISSING-1"][""]],
+    /^data:image\/png;base64,/,
+  );
+  assert.equal(
+    actual.byDrug["SYN-MISSING-1"][""],
+    actual.byDrug["SYN-MISSING-2"][""],
+  );
+  assert.equal(
+    actual.byDrug["SYN-MISSING-1"]["0.5"],
+    actual.byDrug["SYN-MISSING-2"][""],
+  );
+  assert.equal(Object.keys(actual.sources).length, 2);
+});
+
 test("Checkout frontend columns and per-dose matching keep the native visible form and avoid cross-date/cross-item packet matches", async () => {
   const f = await import(
     "../../front/src/components/checkout/checkoutFormat.js"

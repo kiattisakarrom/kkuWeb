@@ -19,3 +19,7 @@ coverage/
 *.log
 .DS_Store
 Thumbs.db
+
+# Deployment state and transfer bundles (can contain private configuration).
+.deploy/
+*.deploy.tar.gz

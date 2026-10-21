@@ -1,37 +1,17 @@
-# # ใช้ Node.js runtime เป็นอิมเมจฐาน
-# FROM node:16
-
-# # ตั้งค่าไดเรกทอรีทำงานในคอนเทนเนอร์
-# WORKDIR /app
-
-# # คัดลอก package.json และ package-lock.json (หรือ yarn.lock) ก่อน
-# COPY package*.json ./
-
-# # ติดตั้งแพ็คเกจที่ต้องการ
-# RUN npm install
-
-# # คัดลอกโค้ดแอปพลิเคชันที่เหลือ
-# COPY . .
-
-# # เปิดพอร์ตที่แอปพลิเคชันใช้
-# EXPOSE 3000
-
-# # กำหนดคำสั่งในการรันแอปพลิเคชัน
-# CMD ["node", "index.js"]
-
-
-# backend/Dockerfile
-FROM node:18-alpine
-
+FROM node:22-bookworm-slim AS dependencies
 WORKDIR /app
+# bcrypt can fall back to a native build when its prebuilt binary is unavailable.
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends ca-certificates python3 make g++ \
+    && rm -rf /var/lib/apt/lists/*
+COPY package.json package-lock.json ./
+RUN npm ci --omit=dev && npm cache clean --force
 
-COPY package*.json ./
-RUN npm ci --only=production
-
-COPY . .
-
+FROM node:22-bookworm-slim
+ENV NODE_ENV=production TZ=Asia/Bangkok PORT=3000
+WORKDIR /app
+COPY --from=dependencies --chown=node:node /app/node_modules ./node_modules
+COPY --chown=node:node . .
+USER node
 EXPOSE 3000
-
 CMD ["node", "index.js"]
-
-
