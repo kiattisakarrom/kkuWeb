@@ -1,0 +1,184 @@
+{
+    "source":  "Report/Sendmix/crpRequisitionDrug.rpt",
+    "pageWidth":  11520,
+    "pageHeight":  15120,
+    "margins":  {
+                    "left":  360,
+                    "right":  360,
+                    "bottom":  360,
+                    "top":  360
+                },
+    "sections":  [
+                     {
+                         "name":  "Section1",
+                         "kind":  "ReportHeader",
+                         "height":  2010,
+                         "suppressed":  false,
+                         "objects":  [
+                                         {
+                                             "name":  "Picture2",
+                                             "kind":  "PictureObject",
+                                             "left":  1680,
+                                             "top":  0,
+                                             "width":  2040,
+                                             "height":  1696
+                                         },
+                                         {
+                                             "name":  "Line12",
+                                             "kind":  "LineObject",
+                                             "left":  3720,
+                                             "top":  1800,
+                                             "width":  6600,
+                                             "height":  0
+                                         },
+                                         {
+                                             "name":  "Text20",
+                                             "kind":  "TextObject",
+                                             "left":  4080,
+                                             "top":  1200,
+                                             "width":  5520,
+                                             "height":  600,
+                                             "text":  "Address : 54 Sri Chant Rd, Nai Mueang,Mueang Khon Kaen, Khon Kaen11000"
+                                         },
+                                         {
+                                             "name":  "Text21",
+                                             "kind":  "TextObject",
+                                             "left":  4200,
+                                             "top":  840,
+                                             "width":  5280,
+                                             "height":  360,
+                                             "text":  " Khon Kaen Hospital\n"
+                                         },
+                                         {
+                                             "name":  "Text22",
+                                             "kind":  "TextObject",
+                                             "left":  4092,
+                                             "top":  0,
+                                             "width":  5568,
+                                             "height":  1005,
+                                             "text":  "Drug Report"
+                                         }
+                                     ]
+                     },
+                     {
+                         "name":  "Section2",
+                         "kind":  "PageHeader",
+                         "height":  720,
+                         "suppressed":  false,
+                         "objects":  [
+                                         {
+                                             "name":  "Box1",
+                                             "kind":  "BoxObject",
+                                             "left":  0,
+                                             "top":  0,
+                                             "width":  11505,
+                                             "height":  720
+                                         },
+                                         {
+                                             "name":  "Text4",
+                                             "kind":  "TextObject",
+                                             "left":  120,
+                                             "top":  120,
+                                             "width":  1560,
+                                             "height":  480,
+                                             "text":  " รายการยา "
+                                         },
+                                         {
+                                             "name":  "PrintDate1",
+                                             "kind":  "FieldObject",
+                                             "left":  9120,
+                                             "top":  120,
+                                             "width":  2280,
+                                             "height":  499,
+                                             "field":  "PrintDate"
+                                         },
+                                         {
+                                             "name":  "Text1",
+                                             "kind":  "TextObject",
+                                             "left":  7800,
+                                             "top":  120,
+                                             "width":  1284,
+                                             "height":  444,
+                                             "text":  " วันที่พิมพ์ :  "
+                                         }
+                                     ]
+                     },
+                     {
+                         "name":  "Section3",
+                         "kind":  "Detail",
+                         "height":  480,
+                         "suppressed":  false,
+                         "objects":  [
+                                         {
+                                             "name":  "Text23",
+                                             "kind":  "TextObject",
+                                             "left":  120,
+                                             "top":  120,
+                                             "width":  480,
+                                             "height":  332,
+                                             "text":  "{#RTotal0}."
+                                         },
+                                         {
+                                             "name":  "Text3",
+                                             "kind":  "TextObject",
+                                             "left":  720,
+                                             "top":  120,
+                                             "width":  1200,
+                                             "height":  332,
+                                             "text":  "{Refill.orderitemcode}"
+                                         },
+                                         {
+                                             "name":  "Text5",
+                                             "kind":  "TextObject",
+                                             "left":  2040,
+                                             "top":  120,
+                                             "width":  9000,
+                                             "height":  332,
+                                             "text":  "{Refill.orderitemname}"
+                                         },
+                                         {
+                                             "name":  "Line3",
+                                             "kind":  "LineObject",
+                                             "left":  0,
+                                             "top":  480,
+                                             "width":  11505,
+                                             "height":  0
+                                         }
+                                     ]
+                     },
+                     {
+                         "name":  "Section4",
+                         "kind":  "ReportFooter",
+                         "height":  0,
+                         "suppressed":  false,
+                         "objects":  [
+
+                                     ]
+                     },
+                     {
+                         "name":  "Section5",
+                         "kind":  "PageFooter",
+                         "height":  930,
+                         "suppressed":  false,
+                         "objects":  [
+                                         {
+                                             "name":  "Text11",
+                                             "kind":  "TextObject",
+                                             "left":  9960,
+                                             "top":  240,
+                                             "width":  1560,
+                                             "height":  444,
+                                             "text":  "หน้า   PageNumber   จาก   TotalPageCount "
+                                         },
+                                         {
+                                             "name":  "Line1",
+                                             "kind":  "LineObject",
+                                             "left":  30,
+                                             "top":  125,
+                                             "width":  11490,
+                                             "height":  0
+                                         }
+                                     ]
+                     }
+                 ]
+}

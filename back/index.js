@@ -13,6 +13,18 @@ const repository = {
   ...require("./repositories/ipdScreeningRepository"),
   ...require("./repositories/ipdCheckoutRepository"),
   ...require("./repositories/ipdMedTransferRepository"),
+  ...require("./repositories/reportAdrRepository"),
+  ...require("./repositories/reportIvAdmixtureRepository"),
+  ...require("./repositories/reportMedTransferRepository"),
+  ...require("./repositories/reportPharmcareSummaryRepository"),
+  ...require("./repositories/reportWorkloadRepository"),
+  ...require("./repositories/reportRequisitionIpdRepository"),
+  ...require("./repositories/reportRequisitionDcRepository"),
+  ...require("./repositories/reportRequisitionErRepository"),
+  ...require("./repositories/reportRequisitionIvRepository"),
+  ...require("./repositories/reportRequisitionFixedStockRepository"),
+  ...require("./repositories/reportRequisitionIvRadRepository"),
+  ...require("./repositories/reportRequisitionOpdRadRepository"),
 };
 const app = createApp({ repository, jwtSecret: process.env.JWT_SECRET });
 const port = Number(process.env.PORT) || 3000;

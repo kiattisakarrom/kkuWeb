@@ -8,6 +8,18 @@ const { screeningAllWindow } = require("./services/ipdScreeningAll");
 const { takeHomeWindow } = require("./services/ipdScreeningTakeHome");
 const { checkoutWindow } = require("./services/ipdCheckout");
 const { medTransferWindow } = require("./services/ipdMedTransfer");
+const { reportAdrRoutes } = require("./routes/reportAdrRoutes");
+const { reportIvAdmixtureRoutes } = require("./routes/reportIvAdmixtureRoutes");
+const { reportMedTransferRoutes } = require("./routes/reportMedTransferRoutes");
+const { reportPharmcareSummaryRoutes } = require("./routes/reportPharmcareSummaryRoutes");
+const { reportWorkloadRoutes } = require("./routes/reportWorkloadRoutes");
+const { reportRequisitionIpdRoutes } = require("./routes/reportRequisitionIpdRoutes");
+const { reportRequisitionDcRoutes } = require("./routes/reportRequisitionDcRoutes");
+const { reportRequisitionErRoutes } = require("./routes/reportRequisitionErRoutes");
+const { reportRequisitionIvRoutes } = require("./routes/reportRequisitionIvRoutes");
+const { reportRequisitionFixedStockRoutes } = require("./routes/reportRequisitionFixedStockRoutes");
+const { reportRequisitionIvRadRoutes } = require("./routes/reportRequisitionIvRadRoutes");
+const { reportRequisitionOpdRadRoutes } = require("./routes/reportRequisitionOpdRadRoutes");
 
 const IPD_ROOMS = ["001", "010"];
 
@@ -151,6 +163,19 @@ function createApp({ repository, jwtSecret }) {
     const { user, context, access, version } = req.session;
     res.json({ user, context, access, version });
   });
+
+  app.use('/api/reports/adr', reportAdrRoutes(repository));
+  app.use('/api/reports/iv-admixture', reportIvAdmixtureRoutes(repository));
+  app.use('/api/reports/med-transfer', reportMedTransferRoutes(repository));
+  app.use('/api/reports/pharmcare-summary', reportPharmcareSummaryRoutes(repository));
+  app.use('/api/reports/workload', reportWorkloadRoutes(repository));
+  app.use('/api/reports/requisition-ipd', reportRequisitionIpdRoutes(repository));
+  app.use('/api/reports/requisition-dc', reportRequisitionDcRoutes(repository));
+  app.use('/api/reports/requisition-er', reportRequisitionErRoutes(repository));
+  app.use('/api/reports/requisition-iv', reportRequisitionIvRoutes(repository));
+  app.use('/api/reports/requisition-fixed-stock', reportRequisitionFixedStockRoutes(repository));
+  app.use('/api/reports/requisition-ivrad', reportRequisitionIvRadRoutes(repository));
+  app.use('/api/reports/requisition-opdrad', reportRequisitionOpdRadRoutes(repository));
 
   app.use("/api/ipd", (req, res, next) => {
     // IPD keeps its login pharmacy. Screening has its own validated room picker.
@@ -1057,13 +1082,15 @@ function createApp({ repository, jwtSecret }) {
   app.use(["/api", "/dose"], (_req, res) =>
     res.status(403).json({ message: "ระบบนี้เปิดให้ดูข้อมูล IPD เท่านั้น" }),
   );
-  app.use((error, _req, res, _next) => {
+  app.use((error, req, res, _next) => {
     if (error.type === "entity.parse.failed")
       return res.status(400).json({ message: "รูปแบบคำขอไม่ถูกต้อง" });
     console.error(
       "IPD viewer request failed:",
       error.code || error.name || "Error",
     );
+    if (req.path.startsWith('/api/reports/requisition-') && error.code === 'ETIMEOUT')
+      return res.status(504).json({ message: 'การรวมข้อมูลใบเบิกใช้เวลาเกินกำหนด กรุณาลองใหม่หรือลดช่วงวันที่' });
     res.status(503).json({ message: "เชื่อมต่อข้อมูลไม่ได้ กรุณาลองใหม่" });
   });
   return app;

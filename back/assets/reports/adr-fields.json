@@ -1,0 +1,138 @@
+[
+  {
+    "Name": "Text3",
+    "Left": 0,
+    "Top": 240,
+    "Width": 2880,
+    "Height": 360,
+    "Text": "วันเดือนปีเกิด : {ADR.patientdob}"
+  },
+  {
+    "Name": "Text4",
+    "Left": 0,
+    "Top": 480,
+    "Width": 2640,
+    "Height": 960,
+    "Text": "ที่อยู่ : {ADR.address}"
+  },
+  {
+    "Name": "Text21",
+    "Left": 1200,
+    "Top": 1800,
+    "Width": 1440,
+    "Height": 480,
+    "Text": "HN : {ADR.hn}"
+  },
+  {
+    "Name": "Text22",
+    "Left": 1200,
+    "Top": 2040,
+    "Width": 1440,
+    "Height": 480,
+    "Text": "AN : {ADR.an}"
+  },
+  {
+    "Name": "Text24",
+    "Left": 120,
+    "Top": 2640,
+    "Width": 2520,
+    "Height": 480,
+    "Text": "{ADR.idcard}"
+  },
+  {
+    "Name": "Text25",
+    "Left": 120,
+    "Top": 3000,
+    "Width": 2520,
+    "Height": 720,
+    "Text": "คำนำหน้า/ชื่อ/นามสกุล\n{ADR.patientname}"
+  },
+  {
+    "Name": "Text37",
+    "Left": 5160,
+    "Top": 1920,
+    "Width": 840,
+    "Height": 960,
+    "Text": "อายุ :\n{ADR.age}"
+  },
+  {
+    "Name": "Text77",
+    "Left": 2760,
+    "Top": 3240,
+    "Width": 120,
+    "Height": 240,
+    "Text": "{ADR.sexM}"
+  },
+  {
+    "Name": "Text89",
+    "Left": 2760,
+    "Top": 3480,
+    "Width": 120,
+    "Height": 240,
+    "Text": "{ADR.sexF}"
+  },
+  {
+    "Name": "Text97",
+    "Left": 6120,
+    "Top": 2160,
+    "Width": 120,
+    "Height": 240,
+    "Text": "{ADR.adrNH}"
+  },
+  {
+    "Name": "Text110",
+    "Left": 6720,
+    "Top": 2160,
+    "Width": 120,
+    "Height": 240,
+    "Text": "{ADR.adrH}"
+  },
+  {
+    "Name": "Text9",
+    "Left": 6120,
+    "Top": 2400,
+    "Width": 5280,
+    "Height": 720,
+    "Text": "{ADR.adrDe}\n\n"
+  },
+  {
+    "Name": "Text111",
+    "Left": 120,
+    "Top": 0,
+    "Width": 3072,
+    "Height": 667,
+    "Text": "{ADR.orderitemname}"
+  },
+  {
+    "Name": "Text112",
+    "Left": 3756,
+    "Top": 0,
+    "Width": 3012,
+    "Height": 655,
+    "Text": "{ADR.dosage}"
+  },
+  {
+    "Name": "Text122",
+    "Left": 6888,
+    "Top": 0,
+    "Width": 588,
+    "Height": 655,
+    "Text": "{ADR.StartDate}"
+  },
+  {
+    "Name": "Text140",
+    "Left": 7572,
+    "Top": 0,
+    "Width": 612,
+    "Height": 655,
+    "Text": "{ADR.EndDate}"
+  },
+  {
+    "Name": "Text172",
+    "Left": 3276,
+    "Top": 0,
+    "Width": 372,
+    "Height": 666,
+    "Text": "{ADR.SOI}"
+  }
+]

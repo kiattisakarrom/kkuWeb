@@ -1,0 +1,391 @@
+{
+    "source":  "Report/Medtransfer/PharmacyReport.rpt",
+    "pageWidth":  16386,
+    "pageHeight":  11523,
+    "margins":  {
+                    "left":  286,
+                    "right":  168,
+                    "bottom":  192,
+                    "top":  192
+                },
+    "groups":  [
+
+               ],
+    "sections":  [
+                     {
+                         "name":  "Section1",
+                         "kind":  "ReportHeader",
+                         "height":  2327,
+                         "suppressed":  false,
+                         "objects":  [
+                                         {
+                                             "name":  "Line12",
+                                             "kind":  "LineObject",
+                                             "left":  5012,
+                                             "top":  2032,
+                                             "width":  7560,
+                                             "height":  0
+                                         },
+                                         {
+                                             "name":  "Text20",
+                                             "kind":  "TextObject",
+                                             "left":  6092,
+                                             "top":  1432,
+                                             "width":  5520,
+                                             "height":  600,
+                                             "text":  "Address : 54 Sri Chant Rd, Nai Mueang,Mueang Khon Kaen, Khon Kaen11000",
+                                             "font":  "Arial",
+                                             "fontSize":  10,
+                                             "bold":  false,
+                                             "align":  "HorizontalCenterAlign",
+                                             "canGrow":  false
+                                         },
+                                         {
+                                             "name":  "Text21",
+                                             "kind":  "TextObject",
+                                             "left":  6212,
+                                             "top":  1072,
+                                             "width":  5280,
+                                             "height":  360,
+                                             "text":  " Khon Kaen Hospital\n",
+                                             "font":  "Century",
+                                             "fontSize":  14,
+                                             "bold":  true,
+                                             "align":  "HorizontalCenterAlign",
+                                             "canGrow":  false
+                                         },
+                                         {
+                                             "name":  "Text22",
+                                             "kind":  "TextObject",
+                                             "left":  6084,
+                                             "top":  0,
+                                             "width":  5568,
+                                             "height":  1200,
+                                             "text":  "Medicine Cart Report",
+                                             "font":  "Angsana New",
+                                             "fontSize":  36,
+                                             "bold":  false,
+                                             "align":  "HorizontalCenterAlign",
+                                             "canGrow":  false
+                                         },
+                                         {
+                                             "name":  "Picture2",
+                                             "kind":  "PictureObject",
+                                             "left":  3508,
+                                             "top":  64,
+                                             "width":  2040,
+                                             "height":  1696
+                                         }
+                                     ]
+                     },
+                     {
+                         "name":  "Section2",
+                         "kind":  "PageHeader",
+                         "height":  516,
+                         "suppressed":  false,
+                         "objects":  [
+                                         {
+                                             "name":  "Text10",
+                                             "kind":  "TextObject",
+                                             "left":  14623,
+                                             "top":  100,
+                                             "width":  1592,
+                                             "height":  375,
+                                             "text":  "รถเข็น",
+                                             "font":  "Microsoft Sans Serif",
+                                             "fontSize":  16,
+                                             "bold":  true,
+                                             "align":  "HorizontalCenterAlign",
+                                             "canGrow":  false
+                                         },
+                                         {
+                                             "name":  "Text8",
+                                             "kind":  "TextObject",
+                                             "left":  11940,
+                                             "top":  80,
+                                             "width":  2540,
+                                             "height":  375,
+                                             "text":  "ผู้บรรจุยา",
+                                             "font":  "Microsoft Sans Serif",
+                                             "fontSize":  16,
+                                             "bold":  true,
+                                             "align":  "HorizontalCenterAlign",
+                                             "canGrow":  false
+                                         },
+                                         {
+                                             "name":  "Text7",
+                                             "kind":  "TextObject",
+                                             "left":  9690,
+                                             "top":  80,
+                                             "width":  2025,
+                                             "height":  375,
+                                             "text":  "หอผู้ป่วย",
+                                             "font":  "Microsoft Sans Serif",
+                                             "fontSize":  16,
+                                             "bold":  true,
+                                             "align":  "HorizontalCenterAlign",
+                                             "canGrow":  false
+                                         },
+                                         {
+                                             "name":  "Text3",
+                                             "kind":  "TextObject",
+                                             "left":  875,
+                                             "top":  95,
+                                             "width":  2265,
+                                             "height":  375,
+                                             "text":  "เลขที่ใบสั่งยา",
+                                             "font":  "Microsoft Sans Serif",
+                                             "fontSize":  16,
+                                             "bold":  true,
+                                             "align":  "HorizontalCenterAlign",
+                                             "canGrow":  false
+                                         },
+                                         {
+                                             "name":  "Text4",
+                                             "kind":  "TextObject",
+                                             "left":  3290,
+                                             "top":  95,
+                                             "width":  1460,
+                                             "height":  375,
+                                             "text":  "HN",
+                                             "font":  "Microsoft Sans Serif",
+                                             "fontSize":  16,
+                                             "bold":  true,
+                                             "align":  "HorizontalCenterAlign",
+                                             "canGrow":  false
+                                         },
+                                         {
+                                             "name":  "Text5",
+                                             "kind":  "TextObject",
+                                             "left":  4853,
+                                             "top":  80,
+                                             "width":  1487,
+                                             "height":  375,
+                                             "text":  "AN",
+                                             "font":  "Microsoft Sans Serif",
+                                             "fontSize":  16,
+                                             "bold":  true,
+                                             "align":  "HorizontalCenterAlign",
+                                             "canGrow":  false
+                                         },
+                                         {
+                                             "name":  "Text6",
+                                             "kind":  "TextObject",
+                                             "left":  6460,
+                                             "top":  80,
+                                             "width":  2980,
+                                             "height":  375,
+                                             "text":  "ชื่อผู้ป่วย",
+                                             "font":  "Microsoft Sans Serif",
+                                             "fontSize":  16,
+                                             "bold":  true,
+                                             "align":  "HorizontalCenterAlign",
+                                             "canGrow":  false
+                                         },
+                                         {
+                                             "name":  "Text1",
+                                             "kind":  "TextObject",
+                                             "left":  224,
+                                             "top":  93,
+                                             "width":  576,
+                                             "height":  375,
+                                             "text":  "No.",
+                                             "font":  "Microsoft Sans Serif",
+                                             "fontSize":  16,
+                                             "bold":  true,
+                                             "align":  "HorizontalCenterAlign",
+                                             "canGrow":  false
+                                         },
+                                         {
+                                             "name":  "Line19",
+                                             "kind":  "LineObject",
+                                             "left":  0,
+                                             "top":  57,
+                                             "width":  16400,
+                                             "height":  0
+                                         },
+                                         {
+                                             "name":  "Line21",
+                                             "kind":  "LineObject",
+                                             "left":  0,
+                                             "top":  489,
+                                             "width":  16400,
+                                             "height":  0
+                                         }
+                                     ]
+                     },
+                     {
+                         "name":  "Section3",
+                         "kind":  "Detail",
+                         "height":  435,
+                         "suppressed":  false,
+                         "objects":  [
+                                         {
+                                             "name":  "Text11",
+                                             "kind":  "TextObject",
+                                             "left":  14660,
+                                             "top":  60,
+                                             "width":  1592,
+                                             "height":  375,
+                                             "text":  "{pharmacy.cartname}",
+                                             "font":  "Microsoft Sans Serif",
+                                             "fontSize":  14,
+                                             "bold":  true,
+                                             "align":  "HorizontalCenterAlign",
+                                             "canGrow":  false
+                                         },
+                                         {
+                                             "name":  "Text12",
+                                             "kind":  "TextObject",
+                                             "left":  11977,
+                                             "top":  40,
+                                             "width":  2540,
+                                             "height":  375,
+                                             "text":  "{pharmacy.username}",
+                                             "font":  "Microsoft Sans Serif",
+                                             "fontSize":  14,
+                                             "bold":  true,
+                                             "align":  "HorizontalCenterAlign",
+                                             "canGrow":  false
+                                         },
+                                         {
+                                             "name":  "Text13",
+                                             "kind":  "TextObject",
+                                             "left":  9727,
+                                             "top":  40,
+                                             "width":  2025,
+                                             "height":  375,
+                                             "text":  "{pharmacy.wardname}",
+                                             "font":  "Microsoft Sans Serif",
+                                             "fontSize":  14,
+                                             "bold":  true,
+                                             "align":  "HorizontalCenterAlign",
+                                             "canGrow":  false
+                                         },
+                                         {
+                                             "name":  "Text14",
+                                             "kind":  "TextObject",
+                                             "left":  6497,
+                                             "top":  40,
+                                             "width":  2980,
+                                             "height":  375,
+                                             "text":  "{pharmacy.patientname}",
+                                             "font":  "Microsoft Sans Serif",
+                                             "fontSize":  14,
+                                             "bold":  true,
+                                             "align":  "HorizontalCenterAlign",
+                                             "canGrow":  false
+                                         },
+                                         {
+                                             "name":  "Text15",
+                                             "kind":  "TextObject",
+                                             "left":  4890,
+                                             "top":  40,
+                                             "width":  1487,
+                                             "height":  375,
+                                             "text":  "{pharmacy.an}",
+                                             "font":  "Microsoft Sans Serif",
+                                             "fontSize":  14,
+                                             "bold":  true,
+                                             "align":  "HorizontalCenterAlign",
+                                             "canGrow":  false
+                                         },
+                                         {
+                                             "name":  "Text16",
+                                             "kind":  "TextObject",
+                                             "left":  3327,
+                                             "top":  55,
+                                             "width":  1460,
+                                             "height":  375,
+                                             "text":  "{pharmacy.hn}",
+                                             "font":  "Microsoft Sans Serif",
+                                             "fontSize":  14,
+                                             "bold":  true,
+                                             "align":  "HorizontalCenterAlign",
+                                             "canGrow":  false
+                                         },
+                                         {
+                                             "name":  "Text17",
+                                             "kind":  "TextObject",
+                                             "left":  912,
+                                             "top":  55,
+                                             "width":  2265,
+                                             "height":  375,
+                                             "text":  "{pharmacy.prescriptionno}",
+                                             "font":  "Microsoft Sans Serif",
+                                             "fontSize":  14,
+                                             "bold":  true,
+                                             "align":  "HorizontalCenterAlign",
+                                             "canGrow":  false
+                                         },
+                                         {
+                                             "name":  "Text18",
+                                             "kind":  "TextObject",
+                                             "left":  255,
+                                             "top":  55,
+                                             "width":  500,
+                                             "height":  375,
+                                             "text":  "RecordNumber",
+                                             "font":  "Microsoft Sans Serif",
+                                             "fontSize":  14,
+                                             "bold":  true,
+                                             "align":  "HorizontalCenterAlign",
+                                             "canGrow":  false
+                                         }
+                                     ]
+                     },
+                     {
+                         "name":  "Section4",
+                         "kind":  "ReportFooter",
+                         "height":  0,
+                         "suppressed":  false,
+                         "objects":  [
+
+                                     ]
+                     },
+                     {
+                         "name":  "Section5",
+                         "kind":  "PageFooter",
+                         "height":  506,
+                         "suppressed":  false,
+                         "objects":  [
+                                         {
+                                             "name":  "Text2",
+                                             "kind":  "TextObject",
+                                             "left":  176,
+                                             "top":  109,
+                                             "width":  2432,
+                                             "height":  285,
+                                             "text":  "PrintDate PrintTime",
+                                             "font":  "Microsoft Sans Serif",
+                                             "fontSize":  12,
+                                             "bold":  false,
+                                             "align":  "HorizontalCenterAlign",
+                                             "canGrow":  false
+                                         },
+                                         {
+                                             "name":  "Text9",
+                                             "kind":  "TextObject",
+                                             "left":  13776,
+                                             "top":  109,
+                                             "width":  2432,
+                                             "height":  285,
+                                             "text":  "PageNumber / TotalPageCount",
+                                             "font":  "Microsoft Sans Serif",
+                                             "fontSize":  12,
+                                             "bold":  false,
+                                             "align":  "RightAlign",
+                                             "canGrow":  false
+                                         },
+                                         {
+                                             "name":  "Line23",
+                                             "kind":  "LineObject",
+                                             "left":  0,
+                                             "top":  18,
+                                             "width":  16384,
+                                             "height":  0
+                                         }
+                                     ]
+                     }
+                 ]
+}

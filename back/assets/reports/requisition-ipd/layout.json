@@ -1,0 +1,500 @@
+{
+    "sections":  [
+                     {
+                         "suppressed":  false,
+                         "name":  "Section1",
+                         "objects":  [
+                                         {
+                                             "name":  "Picture2",
+                                             "kind":  "PictureObject",
+                                             "left":  1800,
+                                             "top":  0,
+                                             "width":  2040,
+                                             "height":  1696
+                                         },
+                                         {
+                                             "name":  "Line12",
+                                             "kind":  "LineObject",
+                                             "left":  3480,
+                                             "top":  2028,
+                                             "width":  6600,
+                                             "height":  0
+                                         },
+                                         {
+                                             "name":  "Text21",
+                                             "kind":  "TextObject",
+                                             "left":  4080,
+                                             "top":  1080,
+                                             "width":  5280,
+                                             "height":  360,
+                                             "text":  " Khon Kaen Hospital\n",
+                                             "fontSize":  14,
+                                             "bold":  true,
+                                             "align":  "HorizontalCenterAlign"
+                                         },
+                                         {
+                                             "name":  "Text20",
+                                             "kind":  "TextObject",
+                                             "left":  3960,
+                                             "top":  1440,
+                                             "width":  5520,
+                                             "height":  600,
+                                             "text":  "Address : 54 Sri Chant Rd, Nai Mueang,Mueang Khon Kaen, Khon Kaen11000",
+                                             "fontSize":  10,
+                                             "bold":  false,
+                                             "align":  "HorizontalCenterAlign"
+                                         },
+                                         {
+                                             "name":  "Text22",
+                                             "kind":  "TextObject",
+                                             "left":  3972,
+                                             "top":  0,
+                                             "width":  5568,
+                                             "height":  1200,
+                                             "text":  "Requisition Report",
+                                             "fontSize":  36,
+                                             "bold":  false,
+                                             "align":  "HorizontalCenterAlign"
+                                         }
+                                     ],
+                         "height":  2212,
+                         "kind":  "ReportHeader"
+                     },
+                     {
+                         "suppressed":  false,
+                         "name":  "Section2",
+                         "objects":  [
+                                         {
+                                             "name":  "Box1",
+                                             "kind":  "BoxObject",
+                                             "left":  0,
+                                             "top":  0,
+                                             "width":  11172,
+                                             "height":  1440
+                                         },
+                                         {
+                                             "name":  "PrintDate1",
+                                             "kind":  "FieldObject",
+                                             "left":  8760,
+                                             "top":  480,
+                                             "width":  2280,
+                                             "height":  499,
+                                             "field":  "PrintDate",
+                                             "fontSize":  18,
+                                             "bold":  true,
+                                             "align":  "LeftAlign"
+                                         },
+                                         {
+                                             "name":  "Text1",
+                                             "kind":  "TextObject",
+                                             "left":  7440,
+                                             "top":  480,
+                                             "width":  1284,
+                                             "height":  444,
+                                             "text":  " วันที่พิมพ์ :  ",
+                                             "fontSize":  18,
+                                             "bold":  true,
+                                             "align":  "LeftAlign"
+                                         },
+                                         {
+                                             "name":  "Text10",
+                                             "kind":  "TextObject",
+                                             "left":  7440,
+                                             "top":  0,
+                                             "width":  3636,
+                                             "height":  444,
+                                             "text":  " ใบเบิกเลขที่ :  {Requisition.RequisitionNo}",
+                                             "fontSize":  18,
+                                             "bold":  true,
+                                             "align":  "LeftAlign"
+                                         },
+                                         {
+                                             "name":  "Text2",
+                                             "kind":  "TextObject",
+                                             "left":  240,
+                                             "top":  480,
+                                             "width":  7200,
+                                             "height":  444,
+                                             "text":  " ใบเบิกเวชภัณฑ์ยา :  {Requisition.Room}",
+                                             "fontSize":  18,
+                                             "bold":  true,
+                                             "align":  "LeftAlign"
+                                         },
+                                         {
+                                             "name":  "Text9",
+                                             "kind":  "TextObject",
+                                             "left":  10200,
+                                             "top":  960,
+                                             "width":  840,
+                                             "height":  444,
+                                             "text":  " หน่วย ",
+                                             "fontSize":  18,
+                                             "bold":  true,
+                                             "align":  "HorizontalCenterAlign"
+                                         },
+                                         {
+                                             "name":  "Text7",
+                                             "kind":  "TextObject",
+                                             "left":  9240,
+                                             "top":  960,
+                                             "width":  840,
+                                             "height":  444,
+                                             "text":  " ขอเบิก ",
+                                             "fontSize":  18,
+                                             "bold":  true,
+                                             "align":  "HorizontalCenterAlign"
+                                         },
+                                         {
+                                             "name":  "Text6",
+                                             "kind":  "TextObject",
+                                             "left":  8280,
+                                             "top":  960,
+                                             "width":  960,
+                                             "height":  444,
+                                             "text":  " Rate/วัน ",
+                                             "fontSize":  18,
+                                             "bold":  true,
+                                             "align":  "HorizontalCenterAlign"
+                                         },
+                                         {
+                                             "name":  "Text8",
+                                             "kind":  "TextObject",
+                                             "left":  7320,
+                                             "top":  960,
+                                             "width":  960,
+                                             "height":  444,
+                                             "text":  "ใช้ไป ",
+                                             "fontSize":  18,
+                                             "bold":  true,
+                                             "align":  "HorizontalCenterAlign"
+                                         },
+                                         {
+                                             "name":  "Text5",
+                                             "kind":  "TextObject",
+                                             "left":  6240,
+                                             "top":  960,
+                                             "width":  1080,
+                                             "height":  444,
+                                             "text":  " min Stock ",
+                                             "fontSize":  18,
+                                             "bold":  true,
+                                             "align":  "HorizontalCenterAlign"
+                                         },
+                                         {
+                                             "name":  "Text4",
+                                             "kind":  "TextObject",
+                                             "left":  3240,
+                                             "top":  960,
+                                             "width":  1560,
+                                             "height":  444,
+                                             "text":  " รายการยา ",
+                                             "fontSize":  18,
+                                             "bold":  true,
+                                             "align":  "HorizontalCenterAlign"
+                                         },
+                                         {
+                                             "name":  "Text3",
+                                             "kind":  "TextObject",
+                                             "left":  480,
+                                             "top":  960,
+                                             "width":  1560,
+                                             "height":  444,
+                                             "text":  " INV_Code ",
+                                             "fontSize":  18,
+                                             "bold":  true,
+                                             "align":  "HorizontalCenterAlign"
+                                         }
+                                     ],
+                         "height":  1464,
+                         "kind":  "PageHeader"
+                     },
+                     {
+                         "suppressed":  false,
+                         "name":  "GroupHeaderSection1",
+                         "objects":  [
+                                         {
+                                             "name":  "drugform1",
+                                             "kind":  "FieldObject",
+                                             "left":  0,
+                                             "top":  120,
+                                             "width":  5160,
+                                             "height":  480,
+                                             "field":  "drugform",
+                                             "fontSize":  16,
+                                             "bold":  true,
+                                             "align":  "DefaultAlign"
+                                         }
+                                     ],
+                         "height":  600,
+                         "kind":  "GroupHeader"
+                     },
+                     {
+                         "suppressed":  false,
+                         "name":  "Section3",
+                         "objects":  [
+                                         {
+                                             "name":  "Text16",
+                                             "kind":  "TextObject",
+                                             "left":  36,
+                                             "top":  0,
+                                             "width":  432,
+                                             "height":  332,
+                                             "text":  "{#RTotal0}",
+                                             "fontSize":  14,
+                                             "bold":  false,
+                                             "align":  "HorizontalCenterAlign"
+                                         },
+                                         {
+                                             "name":  "Text17",
+                                             "kind":  "TextObject",
+                                             "left":  480,
+                                             "top":  0,
+                                             "width":  888,
+                                             "height":  332,
+                                             "text":  "{Requisition.INV_Code}",
+                                             "fontSize":  14,
+                                             "bold":  false,
+                                             "align":  "HorizontalCenterAlign"
+                                         },
+                                         {
+                                             "name":  "Text27",
+                                             "kind":  "TextObject",
+                                             "left":  10152,
+                                             "top":  0,
+                                             "width":  972,
+                                             "height":  332,
+                                             "text":  "{Requisition.dosageunitcode}",
+                                             "fontSize":  14,
+                                             "bold":  false,
+                                             "align":  "HorizontalCenterAlign"
+                                         },
+                                         {
+                                             "name":  "Text18",
+                                             "kind":  "TextObject",
+                                             "left":  1440,
+                                             "top":  0,
+                                             "width":  876,
+                                             "height":  332,
+                                             "text":  "{Requisition.orderitemcode}",
+                                             "fontSize":  14,
+                                             "bold":  false,
+                                             "align":  "LeftAlign"
+                                         },
+                                         {
+                                             "name":  "Text19",
+                                             "kind":  "TextObject",
+                                             "left":  2376,
+                                             "top":  0,
+                                             "width":  4212,
+                                             "height":  332,
+                                             "text":  "{Requisition.orderitemname}",
+                                             "fontSize":  14,
+                                             "bold":  false,
+                                             "align":  "LeftAlign"
+                                         },
+                                         {
+                                             "name":  "Text23",
+                                             "kind":  "TextObject",
+                                             "left":  6600,
+                                             "top":  0,
+                                             "width":  720,
+                                             "height":  332,
+                                             "text":  "",
+                                             "fontSize":  14,
+                                             "bold":  false,
+                                             "align":  "LeftAlign"
+                                         },
+                                         {
+                                             "name":  "Text24",
+                                             "kind":  "TextObject",
+                                             "left":  7320,
+                                             "top":  0,
+                                             "width":  948,
+                                             "height":  332,
+                                             "text":  "{Requisition.orderqty}",
+                                             "fontSize":  14,
+                                             "bold":  false,
+                                             "align":  "HorizontalCenterAlign"
+                                         },
+                                         {
+                                             "name":  "Text25",
+                                             "kind":  "TextObject",
+                                             "left":  8280,
+                                             "top":  0,
+                                             "width":  924,
+                                             "height":  332,
+                                             "text":  "",
+                                             "fontSize":  14,
+                                             "bold":  false,
+                                             "align":  "LeftAlign"
+                                         },
+                                         {
+                                             "name":  "Text26",
+                                             "kind":  "TextObject",
+                                             "left":  9240,
+                                             "top":  0,
+                                             "width":  900,
+                                             "height":  332,
+                                             "text":  "{Requisition.Pack}",
+                                             "fontSize":  14,
+                                             "bold":  true,
+                                             "align":  "HorizontalCenterAlign"
+                                         },
+                                         {
+                                             "name":  "Line3",
+                                             "kind":  "LineObject",
+                                             "left":  0,
+                                             "top":  360,
+                                             "width":  11160,
+                                             "height":  0
+                                         }
+                                     ],
+                         "height":  360,
+                         "kind":  "Detail"
+                     },
+                     {
+                         "suppressed":  false,
+                         "name":  "GroupFooterSection1",
+                         "objects":  [
+
+                                     ],
+                         "height":  0,
+                         "kind":  "GroupFooter"
+                     },
+                     {
+                         "suppressed":  false,
+                         "name":  "Section4",
+                         "objects":  [
+                                         {
+                                             "name":  "Text12",
+                                             "kind":  "TextObject",
+                                             "left":  960,
+                                             "top":  1680,
+                                             "width":  4200,
+                                             "height":  960,
+                                             "text":  "ลงชื่อ ..................................................... ผู้ขอเบิก\n(.....................................................................) ",
+                                             "fontSize":  16,
+                                             "bold":  true,
+                                             "align":  "HorizontalCenterAlign"
+                                         },
+                                         {
+                                             "name":  "Text13",
+                                             "kind":  "TextObject",
+                                             "left":  960,
+                                             "top":  2880,
+                                             "width":  4200,
+                                             "height":  960,
+                                             "text":  "ลงชื่อ ..................................................... ผู้จ่าย\n(.....................................................................) ",
+                                             "fontSize":  16,
+                                             "bold":  true,
+                                             "align":  "HorizontalCenterAlign"
+                                         },
+                                         {
+                                             "name":  "Text14",
+                                             "kind":  "TextObject",
+                                             "left":  6120,
+                                             "top":  2880,
+                                             "width":  4200,
+                                             "height":  960,
+                                             "text":  "ลงชื่อ ..................................................... ผู้รับ\n(.....................................................................) ",
+                                             "fontSize":  16,
+                                             "bold":  true,
+                                             "align":  "HorizontalCenterAlign"
+                                         },
+                                         {
+                                             "name":  "Text15",
+                                             "kind":  "TextObject",
+                                             "left":  6120,
+                                             "top":  1680,
+                                             "width":  4200,
+                                             "height":  960,
+                                             "text":  "ลงชื่อ ..................................................... ผู้อนุมัติ\n(.....................................................................) ",
+                                             "fontSize":  16,
+                                             "bold":  true,
+                                             "align":  "HorizontalCenterAlign"
+                                         },
+                                         {
+                                             "name":  "Text28",
+                                             "kind":  "TextObject",
+                                             "left":  4200,
+                                             "top":  120,
+                                             "width":  1320,
+                                             "height":  444,
+                                             "text":  "รวมทั้งหมด   ",
+                                             "fontSize":  18,
+                                             "bold":  true,
+                                             "align":  "RightAlign"
+                                         },
+                                         {
+                                             "name":  "Text30",
+                                             "kind":  "TextObject",
+                                             "left":  6360,
+                                             "top":  120,
+                                             "width":  960,
+                                             "height":  444,
+                                             "text":  "รายการ   ",
+                                             "fontSize":  18,
+                                             "bold":  true,
+                                             "align":  "LeftAlign"
+                                         },
+                                         {
+                                             "name":  "CountRow1",
+                                             "kind":  "FieldObject",
+                                             "left":  5520,
+                                             "top":  120,
+                                             "width":  817,
+                                             "height":  440,
+                                             "field":  "CountRow",
+                                             "fontSize":  18,
+                                             "bold":  true,
+                                             "align":  "HorizontalCenterAlign"
+                                         }
+                                     ],
+                         "height":  3840,
+                         "kind":  "ReportFooter"
+                     },
+                     {
+                         "suppressed":  false,
+                         "name":  "Section5",
+                         "objects":  [
+                                         {
+                                             "name":  "Text11",
+                                             "kind":  "TextObject",
+                                             "left":  9360,
+                                             "top":  120,
+                                             "width":  1560,
+                                             "height":  444,
+                                             "text":  "หน้า   PageNumber   จาก   TotalPageCount ",
+                                             "fontSize":  16,
+                                             "bold":  true,
+                                             "align":  "RightAlign"
+                                         },
+                                         {
+                                             "name":  "Line1",
+                                             "kind":  "LineObject",
+                                             "left":  0,
+                                             "top":  12,
+                                             "width":  11160,
+                                             "height":  0
+                                         }
+                                     ],
+                         "height":  600,
+                         "kind":  "PageFooter"
+                     }
+                 ],
+    "source":  "Report/Sendmix/crpRequisitionNew.rpt",
+    "margins":  {
+                    "left":  360,
+                    "right":  360,
+                    "bottom":  360,
+                    "top":  360
+                },
+    "pageWidth":  11187,
+    "sorts":  [
+                  {
+                      "name":  "drugform",
+                      "direction":  "AscendingOrder"
+                  }
+              ],
+    "pageHeight":  16120
+}

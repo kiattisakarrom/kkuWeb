@@ -6,13 +6,15 @@ export default function LoginPage() {
   const navigate = useNavigate();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [roomCode, setRoomCode] = useState('');
   const [options, setOptions] = useState({ rooms: [] });
   const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
   const [optionsError, setOptionsError] = useState('');
   const [message, setMessage] = useState('');
   const [retry, setRetry] = useState(0);
+  // Start in the active IPD pharmacy without asking users to choose at login.
+  const defaultRoom =
+    options.rooms.find((room) => room.code === '001') || options.rooms[0];
 
   useEffect(() => {
     const controller = new AbortController();
@@ -35,14 +37,14 @@ export default function LoginPage() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    if (submitting || loading || optionsError) return;
+    if (submitting || loading || optionsError || !defaultRoom) return;
     setSubmitting(true);
     setMessage('');
     try {
       const { data } = await ipdApi.post('/login', {
         username,
         password,
-        roomCode,
+        roomCode: defaultRoom.code,
       });
       saveSessionToken(data.token);
       setPassword('');
@@ -141,32 +143,6 @@ export default function LoginPage() {
             disabled={submitting}
             className={inputClass}
           />
-        </div>
-        <div>
-          <label
-            htmlFor="login-room"
-            className="text-sm font-medium text-slate-700"
-          >
-            ห้องยา
-          </label>
-          <select
-            id="login-room"
-            name="roomCode"
-            value={roomCode}
-            onChange={(event) => setRoomCode(event.target.value)}
-            required
-            disabled={loading || submitting || Boolean(optionsError)}
-            className={inputClass}
-          >
-            <option value="">
-              {loading ? 'กำลังโหลดห้องยา…' : 'เลือกห้องยา'}
-            </option>
-            {options.rooms.map((room) => (
-              <option key={room.code} value={room.code}>
-                [{room.code}] {room.name}
-              </option>
-            ))}
-          </select>
         </div>
         <button
           type="submit"

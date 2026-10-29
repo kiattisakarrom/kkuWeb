@@ -176,7 +176,7 @@ export default function ScreeningStat() {
     ) : resource.error ? (
       <div role="alert" className="p-3 text-red-700">
         <p>{resource.error}</p>
-        <button onClick={reload} className="mt-1 underline">
+        <button onClick={reload} className="mt-1 rounded border px-2 py-1">
           ลองใหม่
         </button>
       </div>
@@ -263,7 +263,10 @@ export default function ScreeningStat() {
             className="shrink-0 border border-blue-300 bg-blue-50 p-2"
           >
             {notice}
-            <button onClick={() => setNotice('')} className="ml-3 underline">
+            <button
+              onClick={() => setNotice('')}
+              className="ml-3 rounded border px-2"
+            >
               ปิดข้อความ
             </button>
           </p>
@@ -355,7 +358,7 @@ export default function ScreeningStat() {
                   {roomOptions.error}{' '}
                   <button
                     onClick={() => setRoomRefresh((value) => value + 1)}
-                    className="underline"
+                    className="rounded border px-2 py-1"
                   >
                     โหลดห้องยาใหม่
                   </button>
@@ -460,6 +463,7 @@ export default function ScreeningStat() {
                   rows={wardRows}
                   idKey="code"
                   buttonKey="_ward"
+                  buttonKeys={['prescriptionCount']}
                   selected={ward?.code}
                   onSelect={(row) => chooseWard(row.code)}
                   emptyText={`ไม่พบรายการ ${modeName} ตาม${isContinueFinished ? 'วันที่และคำค้น' : 'ห้องยา วันที่ และคำค้น'}`}
@@ -486,14 +490,6 @@ export default function ScreeningStat() {
                 <span>
                   {headers.data ? `${prescriptions.length} รายการใบ` : ''}
                 </span>
-                <button
-                  type="button"
-                  disabled={!selected}
-                  onClick={() => openPatient(selected)}
-                  className="rounded border border-gray-400 bg-white px-2 py-1 disabled:text-gray-400"
-                >
-                  ดูรายละเอียดผู้ป่วย
-                </button>
                 {(isRobot
                   ? ['ส่ง Robot ตามใบ', 'ส่ง Robot ตามวอร์ด', 'ยกเลิกใบสั่งยา']
                   : ['Screen และส่งจัดยา', 'พิมพ์ใบสั่งยา', 'ยกเลิกใบสั่งยา']
@@ -572,8 +568,8 @@ export default function ScreeningStat() {
                 <div className="min-h-0 flex-1">
                   {!selected ? (
                     <p role="status" className="p-3 text-gray-500">
-                      เลือกใบสั่งยาเพื่อดูรายการยา ·
-                      ดับเบิลคลิกใบเพื่อเปิดรายละเอียดผู้ป่วย
+                      เลือกใบสั่งยาเพื่อดูรายการยา · แตะชื่อผู้ป่วย
+                      หรือดับเบิลคลิกใบเพื่อเปิดรายละเอียดผู้ป่วย
                     </p>
                   ) : detail.loading || detail.error ? (
                     state(detail)

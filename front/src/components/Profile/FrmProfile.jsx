@@ -214,7 +214,7 @@ export default function FrmProfile() {
   return (
     <section
       aria-label="รายละเอียดผู้ป่วย"
-      className="flex min-h-0 flex-1 flex-col gap-1"
+      className="flex min-h-0 min-w-[960px] flex-1 flex-col gap-1"
     >
       <PatientEntryAlerts
         key={entryAlertContext}

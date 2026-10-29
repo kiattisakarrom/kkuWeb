@@ -25,14 +25,51 @@ const menus = [
     icon: '📄',
     label: 'Report',
     items: [
-      { label: 'ADR' },
-      { label: 'IV Admixture' },
-      { label: 'Med Transfer' },
+      {
+        label: 'ADR',
+        children: [
+          { label: 'ADR', path: '/ipd/reports/adr' },
+          { label: 'ประวัติ ADR', path: '/ipd/reports/adr/history' },
+        ],
+      },
+      { label: 'IV Admixture', path: '/ipd/reports/iv-admixture' },
+      { label: 'Med Transfer', path: '/ipd/reports/med-transfer' },
       { label: 'Nurse Station' },
-      { label: 'Pharmcare' },
+      {
+        label: 'Pharmcare',
+        children: [
+          {
+            label: 'รายงานสรุปการทำ Pharmcare',
+            path: '/ipd/reports/pharmcare-summary',
+          },
+        ],
+      },
       { label: 'Sticker ยา' },
-      { label: 'Workload' },
-      { label: 'ใบเบิก' },
+      { label: 'Workload', path: '/ipd/reports/workload' },
+      {
+        label: 'ใบเบิก',
+        children: [
+          { label: 'ห้องยา IPD', path: '/ipd/reports/requisition-ipd' },
+          { label: 'ห้องยา D/C', path: '/ipd/reports/requisition-dc' },
+          { label: 'ห้องยา ER', path: '/ipd/reports/requisition-er' },
+          {
+            label: 'ห้องเตรียมยาอาคารเภสัชกรรม',
+            path: '/ipd/reports/requisition-iv',
+          },
+          {
+            label: 'ห้องยาเสพติดและ Fixed Stock',
+            path: '/ipd/reports/requisition-fixed-stock',
+          },
+          {
+            label: 'ห้องยาเตรียมอาคารรังสี',
+            path: '/ipd/reports/requisition-ivrad',
+          },
+          {
+            label: 'ห้องยา OPD อาคารรังสี',
+            path: '/ipd/reports/requisition-opdrad',
+          },
+        ],
+      },
       { label: 'การใช้งานของผู้ป่วย' },
       { label: 'ขายยานอก HAD,TDM,LAB และเคมีบำบัด' },
       { label: 'การป้องกันการใช้ยา' },
@@ -50,6 +87,7 @@ const menus = [
 export default function IpdHeader({ onNavigate }) {
   const navigate = useNavigate();
   const [openMenu, setOpenMenu] = useState(null);
+  const [openSubmenu, setOpenSubmenu] = useState(null);
   const headerRef = useRef(null);
   useEffect(() => {
     const closeOutside = (event) => {
@@ -67,7 +105,9 @@ export default function IpdHeader({ onNavigate }) {
   }, []);
   const select = (item) => {
     setOpenMenu(null);
-    if (onNavigate) onNavigate(item.path, item.label);
+    setOpenSubmenu(null);
+    if (item.path?.startsWith('/ipd/reports/')) navigate(item.path);
+    else if (onNavigate) onNavigate(item.path, item.label);
     else if (item.path) navigate(item.path);
   };
   return (
@@ -107,17 +147,49 @@ export default function IpdHeader({ onNavigate }) {
               aria-label={menu.label}
             >
               {menu.items.map((item, index) => (
-                <button
-                  type="button"
-                  key={`${item.label}-${index}`}
-                  onClick={() => select(item)}
-                  className="flex w-full items-center justify-between gap-3 px-4 py-2 text-left hover:bg-gray-100 focus-visible:bg-blue-100"
-                >
-                  <span>{item.label}</span>
-                  {item.shortcut && (
-                    <span className="text-gray-500">{item.shortcut}</span>
+                <div key={`${item.label}-${index}`}>
+                  <button
+                    type="button"
+                    aria-expanded={
+                      item.children ? openSubmenu === item.label : undefined
+                    }
+                    onClick={() =>
+                      item.children
+                        ? setOpenSubmenu(
+                            openSubmenu === item.label ? null : item.label
+                          )
+                        : select(item)
+                    }
+                    className="flex w-full items-center justify-between gap-3 px-4 py-2 text-left hover:bg-gray-100 focus-visible:bg-blue-100"
+                  >
+                    <span>{item.label}</span>
+                    {item.children && (
+                      <span aria-hidden="true">
+                        {openSubmenu === item.label ? '▾' : '▸'}
+                      </span>
+                    )}
+                    {item.shortcut && (
+                      <span className="text-gray-500">{item.shortcut}</span>
+                    )}
+                  </button>
+                  {item.children && openSubmenu === item.label && (
+                    <div
+                      aria-label={`รายงาน ${item.label}`}
+                      className="ml-5 border-l border-gray-300"
+                    >
+                      {item.children.map((child) => (
+                        <button
+                          key={child.path}
+                          type="button"
+                          onClick={() => select(child)}
+                          className="block w-full px-4 py-2 text-left hover:bg-blue-50 focus-visible:bg-blue-100"
+                        >
+                          {child.label}
+                        </button>
+                      ))}
+                    </div>
                   )}
-                </button>
+                </div>
               ))}
             </div>
           )}

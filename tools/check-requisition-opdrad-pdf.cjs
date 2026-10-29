@@ -1,0 +1,28 @@
+const fs=require('node:fs'),path=require('node:path'),assert=require('node:assert/strict'),{performance}=require('node:perf_hooks');
+const {assembleRequisitionOpdRadRows}=require('../back/services/reportRequisitionOpdRad');
+const {assembleRequisitionRows}=require('../back/services/reportRequisitionIpd');
+const {requisitionDrugLookup}=require('../back/services/reportRequisitionEr');
+const {createRequisitionIpdPdf}=require('../back/services/reportRequisitionIpdPdf');
+const {createRequisitionMissingPdf}=require('../back/services/reportRequisitionMissingPdf');
+const root=path.join(__dirname,'../tmp/pdfs');fs.mkdirSync(root,{recursive:true});
+const now=new Date('2026-10-23T02:00:00Z');
+const drug=(code,name)=>({orderitemcode:code,orderitemENname:name,drugform:'Tablet',orderunitcode:'TAB',Inventorycode:`INV${code}`,pack:10,sendStore:1,sendF3F4:1});
+(async()=>{
+  const masters=Array.from({length:5},(_,i)=>drug(`000${i+1}`,`OPDRAD Sample Medicine ${i+1}`));
+  const source=[{orderitemcode:'ALIAS-A',orderqty:24.5},{orderitemcode:'ALIAS-B',orderqty:25.5},...masters.slice(1).map((row,i)=>({orderitemcode:row.orderitemcode,orderqty:(i+1)*11}))];
+  const aliases=[{mc_id:'ALIAS-A',Sum_MCID:'0001'},{mc_id:'ALIAS-B',Sum_MCID:'0001'}];
+  const sampleData=assembleRequisitionOpdRadRows(source,masters,aliases,'floor4',now);
+  const sample=await createRequisitionIpdPdf(sampleData,now);fs.writeFileSync(path.join(root,'requisition-opdrad-sample.pdf'),sample.buffer);
+  const stressMaster=Array.from({length:120},(_,i)=>({...drug(`RAD${String(i+1).padStart(3,'0')}`,`OPDRAD-MED-${String(i+1).padStart(3,'0')} ยาจำลอง ${i%30===0?'ชื่อยายาวและข้อมูลครบ '.repeat(10)+'END-OPDRAD-MED':''}`),drugform:['Injection','Tablet','External'][i%3]}));
+  const stressData=assembleRequisitionOpdRadRows(stressMaster.map((row,i)=>({orderitemcode:row.orderitemcode,orderqty:i+0.5})),stressMaster,[],'floor4',now);
+  const stress=await createRequisitionIpdPdf(stressData,now);fs.writeFileSync(path.join(root,'requisition-opdrad-stress.pdf'),stress.buffer);
+  const missing=Array.from({length:90},(_,i)=>({orderitemcode:`MISS${i+1}`,orderitemname:`OPDRAD-MISSING-${String(i+1).padStart(3,'0')} ยาจำลอง ${i%30===0?'ชื่อยายาว '.repeat(25)+'END-OPDRAD-MISSING':''}`}));
+  fs.writeFileSync(path.join(root,'requisition-opdrad-missing.pdf'),await createRequisitionMissingPdf({missingDrugs:missing},now));
+  const large=Array.from({length:6000},(_,i)=>({orderitemcode:i%2?'ALIAS-A':'ALIAS-B',orderqty:i+0.5}));
+  const lookup=requisitionDrugLookup(masters,aliases,'floor4'),before=performance.now();
+  const previous=large.map(raw=>{const {drug}=lookup(raw.orderitemcode);return assembleRequisitionRows([{...drug,orderitemname:drug.orderitemENname,orderqty:raw.orderqty}],now,{prefix:'OPDRAD',room:'ห้องยา OPD อาคารรังสี'})[0];});
+  const previousMs=Math.round(performance.now()-before),after=performance.now();
+  const optimized=assembleRequisitionOpdRadRows(large,masters,aliases,'floor4',now).rows;
+  const optimizedMs=Math.round(performance.now()-after);assert.deepEqual(optimized,previous);
+  console.log(JSON.stringify({sampleRows:sampleData.rows.length,samplePages:sample.pageCount,stressRows:stressData.rows.length,stressPages:stress.pageCount,missingRows:missing.length,benchmark:{rows:large.length,previousMs,optimizedMs,allFieldsEqual:true,databasesContacted:0}}));
+})().catch(error=>{console.error(error);process.exitCode=1;});

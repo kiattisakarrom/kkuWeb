@@ -1,5 +1,6 @@
 import { dateText } from '../Profile/profileFormat';
 import { screeningValue } from './screeningColumns';
+import PatientOpenButton from '../ipd/PatientOpenButton';
 
 export default function ScreeningReadTable({
   label,
@@ -8,6 +9,7 @@ export default function ScreeningReadTable({
   selected,
   idKey,
   buttonKey,
+  buttonKeys = [],
   onSelect,
   onOpen,
   emptyText,
@@ -42,10 +44,12 @@ export default function ScreeningReadTable({
           >
             {columns.map(([key, , format]) => {
               const value = screeningValue(row, key);
+              const selectable =
+                onSelect && (key === buttonKey || buttonKeys.includes(key));
               return (
                 <td
                   key={key}
-                  className="whitespace-nowrap border border-gray-300 px-2 py-1.5"
+                  className={`whitespace-nowrap border border-gray-300 ${key === 'patientname' && onOpen ? 'p-0' : 'px-2 py-1.5'}`}
                 >
                   {format === 'checkbox' ? (
                     <input
@@ -58,15 +62,26 @@ export default function ScreeningReadTable({
                           : `Print รายการ ${index + 1} (ดูข้อมูลเท่านั้น)`
                       }
                     />
-                  ) : key === buttonKey && onSelect ? (
+                  ) : key === 'patientname' && onOpen ? (
+                    <PatientOpenButton
+                      patient={row}
+                      onOpen={onOpen}
+                      className="px-2 py-1.5"
+                    />
+                  ) : selectable ? (
                     <button
                       type="button"
                       aria-pressed={row[idKey] === selected}
+                      aria-label={
+                        key === 'prescriptionCount'
+                          ? `แสดงรายการหอผู้ป่วย ${row.name || row.code} จำนวน ${value}`
+                          : undefined
+                      }
                       onClick={(event) => {
                         event.stopPropagation();
                         onSelect(row);
                       }}
-                      className="text-blue-800 underline"
+                      className="w-full touch-manipulation text-left focus-visible:outline focus-visible:outline-2 focus-visible:outline-blue-500"
                     >
                       {String(value)}
                     </button>
@@ -110,6 +125,7 @@ ScreeningReadTable.propTypes = {
   selected: () => null,
   idKey: () => null,
   buttonKey: () => null,
+  buttonKeys: () => null,
   onSelect: () => null,
   onOpen: () => null,
   emptyText: () => null,

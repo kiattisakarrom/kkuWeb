@@ -5,6 +5,7 @@ import { IpdSessionContext } from '../../services/ipdSession';
 import { clearSessionToken } from '../../services/ipdApi';
 import { useIpdRead } from '../../services/useIpdRead';
 import { useScreeningWards } from '../screening/useScreeningWards';
+import PatientOpenButton from '../ipd/PatientOpenButton';
 import { validProfileDate } from '../Profile/drugProfileDates';
 import { bangkokDay } from '../Profile/nativeProfileFormat';
 import {
@@ -176,7 +177,7 @@ export default function QuickOrder() {
     ) : resource.error ? (
       <div role="alert" className="p-4 text-red-700">
         {resource.error}{' '}
-        <button onClick={reload} className="underline">
+        <button onClick={reload} className="rounded border px-2 py-1">
           ลองใหม่
         </button>
       </div>
@@ -223,7 +224,7 @@ export default function QuickOrder() {
         {roomOptions.error && (
           <div role="alert" className="p-2 text-red-700">
             {roomOptions.error}{' '}
-            <button onClick={reload} className="underline">
+            <button onClick={reload} className="rounded border px-2 py-1">
               ลองใหม่
             </button>
           </div>
@@ -487,7 +488,7 @@ export default function QuickOrder() {
                         {quickOrderColumns.map(([key]) => (
                           <td
                             key={key}
-                            className="whitespace-nowrap border border-gray-300 px-2 py-2"
+                            className={`whitespace-nowrap border border-gray-300 ${key === 'patientname' ? 'p-0' : 'px-2 py-2'}`}
                           >
                             {key === '_select' ? (
                               <input
@@ -513,23 +514,16 @@ export default function QuickOrder() {
                                     addPreview(row);
                                   }
                                 }}
-                                className="text-blue-800 underline"
+                                className="text-blue-800"
                               >
                                 {row.prescriptionno}
                               </button>
                             ) : key === 'patientname' ? (
-                              <button
-                                type="button"
-                                title="ดับเบิลคลิกชื่อเพื่อดูรายละเอียด หรือกด Enter"
-                                onKeyDown={(event) => {
-                                  if (event.key === 'Enter') {
-                                    event.preventDefault();
-                                    openPatient(row);
-                                  }
-                                }}
-                              >
-                                {quickOrderValue(row, key)}
-                              </button>
+                              <PatientOpenButton
+                                patient={row}
+                                onOpen={openPatient}
+                                className="px-2 py-2"
+                              />
                             ) : (
                               quickOrderValue(row, key)
                             )}

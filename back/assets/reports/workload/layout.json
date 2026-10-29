@@ -1,0 +1,142 @@
+{
+    "source":  "Report/Workload/clsWorkloadNew.rpt",
+    "pageWidth":  16360,
+    "pageHeight":  11563,
+    "margins":  {
+                    "left":  240,
+                    "right":  240,
+                    "bottom":  176,
+                    "top":  168
+                },
+    "sections":  [
+                     {
+                         "name":  "Section1",
+                         "kind":  "ReportHeader",
+                         "height":  4600,
+                         "suppressed":  false,
+                         "objects":  [
+                                         {
+                                             "name":  "CrossTab1",
+                                             "kind":  "CrossTabObject",
+                                             "left":  240,
+                                             "top":  2760,
+                                             "width":  6100,
+                                             "height":  1828
+                                         },
+                                         {
+                                             "name":  "Picture2",
+                                             "kind":  "PictureObject",
+                                             "left":  2880,
+                                             "top":  120,
+                                             "width":  2040,
+                                             "height":  1696
+                                         },
+                                         {
+                                             "name":  "Line12",
+                                             "kind":  "LineObject",
+                                             "left":  5616,
+                                             "top":  2040,
+                                             "width":  6600,
+                                             "height":  0
+                                         },
+                                         {
+                                             "name":  "Text20",
+                                             "kind":  "TextObject",
+                                             "left":  6084,
+                                             "top":  1440,
+                                             "width":  5520,
+                                             "height":  600,
+                                             "text":  "Address : 54 Sri Chant Rd, Nai Mueang, Mueang Khon Kaen, Khon Kaen11000"
+                                         },
+                                         {
+                                             "name":  "Text21",
+                                             "kind":  "TextObject",
+                                             "left":  6192,
+                                             "top":  1080,
+                                             "width":  5280,
+                                             "height":  360,
+                                             "text":  " Khon Kaen Hospital\n"
+                                         },
+                                         {
+                                             "name":  "Text22",
+                                             "kind":  "TextObject",
+                                             "left":  5160,
+                                             "top":  0,
+                                             "width":  7680,
+                                             "height":  1032,
+                                             "text":  "Workload Report"
+                                         },
+                                         {
+                                             "name":  "Text10",
+                                             "kind":  "TextObject",
+                                             "left":  240,
+                                             "top":  2280,
+                                             "width":  6120,
+                                             "height":  375,
+                                             "text":  "วันที่ :  {?StartDate}  ถึง  {?EndDate}"
+                                         }
+                                     ]
+                     },
+                     {
+                         "name":  "Section2",
+                         "kind":  "PageHeader",
+                         "height":  0,
+                         "suppressed":  true,
+                         "objects":  [
+
+                                     ]
+                     },
+                     {
+                         "name":  "Section3",
+                         "kind":  "Detail",
+                         "height":  0,
+                         "suppressed":  false,
+                         "objects":  [
+
+                                     ]
+                     },
+                     {
+                         "name":  "Section4",
+                         "kind":  "ReportFooter",
+                         "height":  0,
+                         "suppressed":  true,
+                         "objects":  [
+
+                                     ]
+                     },
+                     {
+                         "name":  "Section5",
+                         "kind":  "PageFooter",
+                         "height":  804,
+                         "suppressed":  false,
+                         "objects":  [
+                                         {
+                                             "name":  "Line1",
+                                             "kind":  "LineObject",
+                                             "left":  132,
+                                             "top":  116,
+                                             "width":  16068,
+                                             "height":  0
+                                         },
+                                         {
+                                             "name":  "Text2",
+                                             "kind":  "TextObject",
+                                             "left":  14880,
+                                             "top":  240,
+                                             "width":  1200,
+                                             "height":  360,
+                                             "text":  "หน้า : PageNumber / TotalPageCount"
+                                         },
+                                         {
+                                             "name":  "Text1",
+                                             "kind":  "TextObject",
+                                             "left":  240,
+                                             "top":  240,
+                                             "width":  3480,
+                                             "height":  360,
+                                             "text":  "วันที่พิมพ์ : PrintDate PrintTime"
+                                         }
+                                     ]
+                     }
+                 ]
+}

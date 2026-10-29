@@ -12,6 +12,12 @@ import ScreeningStat from './components/screening/ScreeningStat';
 import QuickOrder from './components/quickorder/QuickOrder';
 import Checkout from './components/checkout/Checkout';
 import MedTransfer from './components/medtransfer/MedTransfer';
+import AdrReport from './components/reports/AdrReport';
+import IvAdmixtureReport from './components/reports/IvAdmixtureReport';
+import MedTransferReport from './components/reports/MedTransferReport';
+import PharmcareSummaryReport from './components/reports/PharmcareSummaryReport';
+import WorkloadReport from './components/reports/WorkloadReport';
+import RequisitionIpdReport from './components/reports/RequisitionIpdReport';
 import { apiMessage, getSessionToken, ipdApi } from './services/ipdApi';
 import { IpdSessionContext } from './services/ipdSession';
 
@@ -20,6 +26,20 @@ function PrivateRoute() {
   const quickOrder = useMatch('/ipd/quick-order');
   const checkout = useMatch('/ipd/checkout');
   const medTransfer = useMatch('/ipd/med-transfer');
+  const adrReport = useMatch('/ipd/reports/adr/*');
+  const ivReport = useMatch('/ipd/reports/iv-admixture');
+  const transferReport = useMatch('/ipd/reports/med-transfer');
+  const pharmcareSummary = useMatch('/ipd/reports/pharmcare-summary');
+  const workloadReport = useMatch('/ipd/reports/workload');
+  const requisitionIpdReport = useMatch('/ipd/reports/requisition-ipd');
+  const requisitionDcReport = useMatch('/ipd/reports/requisition-dc');
+  const requisitionErReport = useMatch('/ipd/reports/requisition-er');
+  const requisitionIvReport = useMatch('/ipd/reports/requisition-iv');
+  const requisitionIvRadReport = useMatch('/ipd/reports/requisition-ivrad');
+  const requisitionOpdRadReport = useMatch('/ipd/reports/requisition-opdrad');
+  const requisitionFixedStockReport = useMatch(
+    '/ipd/reports/requisition-fixed-stock'
+  );
   const [session, setSession] = useState(null);
   const [checking, setChecking] = useState(true);
   const [error, setError] = useState('');
@@ -77,7 +97,31 @@ function PrivateRoute() {
     );
   return session ? (
     <IpdSessionContext.Provider value={session}>
-      {medTransfer ? (
+      {requisitionOpdRadReport ? (
+        <RequisitionIpdReport key="opdrad" variant="opdrad" />
+      ) : requisitionIvRadReport ? (
+        <RequisitionIpdReport key="ivrad" variant="ivrad" />
+      ) : requisitionFixedStockReport ? (
+        <RequisitionIpdReport key="fixed-stock" variant="fixed-stock" />
+      ) : requisitionIvReport ? (
+        <RequisitionIpdReport key="iv" variant="iv" />
+      ) : requisitionErReport ? (
+        <RequisitionIpdReport key="er" variant="er" />
+      ) : requisitionDcReport ? (
+        <RequisitionIpdReport key="dc" variant="dc" />
+      ) : requisitionIpdReport ? (
+        <RequisitionIpdReport key="ipd" />
+      ) : workloadReport ? (
+        <WorkloadReport />
+      ) : pharmcareSummary ? (
+        <PharmcareSummaryReport />
+      ) : transferReport ? (
+        <MedTransferReport />
+      ) : ivReport ? (
+        <IvAdmixtureReport />
+      ) : adrReport ? (
+        <AdrReport />
+      ) : medTransfer ? (
         <MedTransfer />
       ) : checkout ? (
         <Checkout />
@@ -99,6 +143,10 @@ export default function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/login" element={<Login />} />
+        <Route
+          path="/ipd/reports/requisition-er-opd"
+          element={<Navigate to="/ipd" replace />}
+        />
         <Route
           path="/screening"
           element={<Navigate to="/ipd/screening" replace />}

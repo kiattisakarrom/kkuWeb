@@ -1,6 +1,7 @@
 import { useContext, useEffect, useRef, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import IpdHeader from '../../header/IpdHeader';
+import PatientOpenButton from '../ipd/PatientOpenButton';
 import { IpdSessionContext } from '../../services/ipdSession';
 import { clearSessionToken } from '../../services/ipdApi';
 import { useIpdRead } from '../../services/useIpdRead';
@@ -67,7 +68,7 @@ function ReadState({ resource, onRetry }) {
   return resource.error ? (
     <div role="alert" className="p-4 text-red-700">
       {resource.error}{' '}
-      <button onClick={onRetry} className="underline">
+      <button onClick={onRetry} className="rounded border px-2 py-1">
         ลองใหม่
       </button>
     </div>
@@ -725,12 +726,13 @@ export default function Checkout() {
                           <tr
                             key={row.key}
                             onDoubleClick={() => open(row)}
-                            className="hover:bg-blue-50"
+                            title="แตะช่องชื่อ - นามสกุล หรือดับเบิลคลิกแถวเพื่อดูรายละเอียด Check out"
+                            className="touch-manipulation hover:bg-blue-50"
                           >
                             {checkoutHeaderColumns.map(([key]) => (
                               <td
                                 key={key}
-                                className="whitespace-nowrap border border-gray-300 p-2"
+                                className={`whitespace-nowrap border border-gray-300 ${key === 'patientname' ? 'p-0' : 'p-2'}`}
                               >
                                 {key === '_select' ? (
                                   <input
@@ -741,19 +743,12 @@ export default function Checkout() {
                                   />
                                 ) : key === '_status' ? (
                                   checkoutStatusText(row)
-                                ) : key === 'prescriptionno' ? (
-                                  <button
-                                    title="ดับเบิลคลิกหรือกด Enter เพื่อดูรายละเอียด Check out"
-                                    onKeyDown={(event) => {
-                                      if (event.key === 'Enter') {
-                                        event.preventDefault();
-                                        open(row);
-                                      }
-                                    }}
-                                    className="text-blue-800 underline"
-                                  >
-                                    {row.prescriptionno}
-                                  </button>
+                                ) : key === 'patientname' ? (
+                                  <PatientOpenButton
+                                    patient={row}
+                                    onOpen={open}
+                                    className="p-2"
+                                  />
                                 ) : (
                                   nativeText(row[key])
                                 )}

@@ -4,6 +4,7 @@ import { apiMessage, clearSessionToken, ipdApi } from '../../services/ipdApi';
 import { IpdSessionContext } from '../../services/ipdSession';
 import IpdHeader from '../../header/IpdHeader';
 import FrmProfile from '../Profile/FrmProfile';
+import PatientOpenButton from './PatientOpenButton';
 import addDoc from '../../../img/addDoc.png';
 import editDoc from '../../../img/editDoc.png';
 import homeIcon from '../../../img/homeIcon.png';
@@ -224,7 +225,9 @@ export default function IpdWorkspace() {
           }}
         />
       </header>
-      <main className="flex min-h-0 flex-1 flex-col gap-2 p-2">
+      <main
+        className={`flex min-h-0 flex-1 flex-col gap-2 p-2 ${detailMatch ? 'overflow-x-auto' : ''}`}
+      >
         {menuNotice && (
           <div
             role="status"
@@ -233,7 +236,7 @@ export default function IpdWorkspace() {
             <p>{menuNotice}</p>
             <button
               onClick={() => setMenuNotice('')}
-              className="px-2 underline"
+              className="rounded border px-2"
             >
               ปิดข้อความ
             </button>
@@ -360,7 +363,10 @@ export default function IpdWorkspace() {
                   ) : wardsError ? (
                     <div role="alert" className="p-4 text-red-700">
                       <p>{wardsError}</p>
-                      <button onClick={reload} className="mt-2 underline">
+                      <button
+                        onClick={reload}
+                        className="mt-2 rounded border px-2 py-1"
+                      >
                         ลองใหม่
                       </button>
                     </div>
@@ -383,6 +389,7 @@ export default function IpdWorkspace() {
                         {wards.map((ward) => (
                           <tr
                             key={ward.code}
+                            onClick={() => setWardCode(ward.code)}
                             className={
                               ward.code === wardCode
                                 ? 'bg-blue-600 text-white'
@@ -398,8 +405,19 @@ export default function IpdWorkspace() {
                                 [{ward.code}] {ward.name}
                               </button>
                             </td>
-                            <td className="border border-gray-300 px-2 py-2 text-center">
-                              {ward.patientCount}
+                            <td className="border border-gray-300 p-0 text-center">
+                              <button
+                                type="button"
+                                aria-label={`แสดงผู้ป่วยหอ ${ward.name} จำนวน ${ward.patientCount}`}
+                                aria-pressed={ward.code === wardCode}
+                                onClick={(event) => {
+                                  event.stopPropagation();
+                                  setWardCode(ward.code);
+                                }}
+                                className="w-full touch-manipulation px-2 py-2 focus-visible:outline focus-visible:outline-2 focus-visible:outline-blue-500"
+                              >
+                                {ward.patientCount}
+                              </button>
                             </td>
                           </tr>
                         ))}
@@ -473,7 +491,10 @@ export default function IpdWorkspace() {
                   ) : error ? (
                     <div role="alert" className="p-8 text-center text-red-700">
                       <p>{error}</p>
-                      <button onClick={reload} className="mt-3 underline">
+                      <button
+                        onClick={reload}
+                        className="mt-3 rounded border px-2 py-1"
+                      >
                         ลองใหม่
                       </button>
                     </div>
@@ -505,6 +526,7 @@ export default function IpdWorkspace() {
                         {patients.map((patient) => (
                           <tr
                             key={`${patient.an}-${patient.dischargeddate || ''}`}
+                            onClick={() => setLastOpenedAn(patient.an)}
                             onDoubleClick={() => openPatient(patient)}
                             onKeyDown={(event) => {
                               if (event.key === 'Enter') {
@@ -513,8 +535,8 @@ export default function IpdWorkspace() {
                               }
                             }}
                             tabIndex={0}
-                            title="ดับเบิลคลิกหรือกด Enter เพื่อดูรายละเอียด"
-                            className={`cursor-pointer hover:bg-blue-100 focus:bg-blue-100 focus:outline-none ${lastOpenedAn === patient.an ? 'bg-blue-100' : ''}`}
+                            title="แตะชื่อผู้ป่วย หรือดับเบิลคลิกแถวเพื่อดูรายละเอียด"
+                            className={`touch-manipulation cursor-pointer hover:bg-blue-100 focus:bg-blue-100 focus:outline-none ${lastOpenedAn === patient.an ? 'bg-blue-100' : ''}`}
                           >
                             <td className="whitespace-nowrap border border-gray-300 px-3 py-2">
                               {displayDate(patient.admitteddate)}
@@ -525,8 +547,12 @@ export default function IpdWorkspace() {
                             <td className="border border-gray-300 px-3 py-2">
                               {patient.an}
                             </td>
-                            <td className="whitespace-nowrap border border-gray-300 px-3 py-2">
-                              {patient.patientname || '—'}
+                            <td className="whitespace-nowrap border border-gray-300 p-0">
+                              <PatientOpenButton
+                                patient={patient}
+                                onOpen={openPatient}
+                                className="px-3 py-2"
+                              />
                             </td>
                             <td className="border border-gray-300 px-3 py-2 text-center">
                               {patient.SumPresc}
@@ -558,7 +584,7 @@ export default function IpdWorkspace() {
                   {currentData?.patientCount ?? 0} ราย
                   {patients.length > 0 && (
                     <span className="ml-4 text-gray-600">
-                      ดับเบิลคลิกหรือกด Enter ที่รายการเพื่อดูรายละเอียด
+                      แตะช่องชื่อ - นามสกุล · ดับเบิลคลิกหรือกด Enter ที่แถวได้
                     </span>
                   )}
                 </p>

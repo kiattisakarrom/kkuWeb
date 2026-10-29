@@ -1,0 +1,8 @@
+[
+  "วันที่", "HN", "AN", "ชื่อผู้ป่วย", "เพศ", "Admit", "รหัสหอผู้ป่วย", "หอผู้ป่วย",
+  "NewCase", "CriteriaOfCare", "GroupOfCare", "GroupOfPt", "DRP", "การจำหน่าย", "LOS",
+  "DC", "FU", "ClinicalOutcome", "Pharmacist", "หน่วยงาน", "Time", "Process", "No",
+  "Problem", "รหัสยา1", "DrugCause", "รหัสยา2", "DrugDispense", "Severity", "ProblemOccur",
+  "Preventable", "CauseCd", "cause", "ActionTakeCd", "ActionTake", "AcceptanceCd", "Acceptance",
+  "OutcomeCd", "Outcome", "ผู้เกี่ยวข้อง", "ผู้รายงาน", "PharmacistNote", "Plan"
+]
